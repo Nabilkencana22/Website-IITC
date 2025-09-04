@@ -17,7 +17,7 @@ const Routes = () => {
       <ScrollToTop />
       <RouterRoutes>
         {/* Define your route here */}
-        <Route path="/" element={<WayangGallery />} />
+        <Route path="/" element={<HomepageCulturalGateway />} />
         <Route path="/virtual-dalang-theater-performance-experience" element={<VirtualDalangTheaterPerformanceExperience />} />
         <Route path="/gamelan-playground-musical-exploration" element={<GamelanPlaygroundPage />} />
         <Route path="/3d-wayang-gallery-character-universe" element={<WayangGallery />} />
