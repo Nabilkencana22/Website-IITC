@@ -198,35 +198,48 @@ const GamelanPlayer = () => {
 
                 <div className="flex items-center space-x-2">
                   <div className="relative">
-                    <button
-                      onClick={() => setShowVolumeControl(!showVolumeControl)}
-                      className="p-2 rounded-lg hover:bg-muted/20 transition-colors duration-cultural-normal"
-                    >
-                      <Icon
-                        name={
-                          volume === 0
-                            ? "VolumeX"
-                            : volume < 0.5
-                            ? "Volume1"
-                            : "Volume2"
-                        }
-                        size={20}
-                        className="text-muted-foreground"
-                      />
-                    </button>
+                    {/* Volume Control */}
+                    <div className="relative flex items-center space-x-2">
+                      {/* Tombol Icon Volume */}
+                      <button
+                        onClick={() => setShowVolumeControl(!showVolumeControl)}
+                        className="p-2 rounded-lg hover:bg-muted/20 transition-colors duration-300 flex items-center justify-center"
+                      >
+                        <Icon
+                          name={
+                            volume === 0
+                              ? "VolumeX"
+                              : volume < 0.5
+                              ? "Volume1"
+                              : "Volume2"
+                          }
+                          size={20}
+                          className={`text-muted-foreground transition-colors duration-300 ${
+                            volume === 0 ? "text-red-500" : "text-yellow-400"
+                          }`}
+                        />
+                      </button>
 
-                    {showVolumeControl && (
-                      <div className="absolute top-full right-0 mt-2 bg-popover border border-border rounded-lg p-3 shadow-puppet">
+                      {/* Slider Volume */}
+                      {showVolumeControl && (
                         <input
                           type="range"
                           min="0"
-                          max="100"
-                          value={volume * 100}
-                          onChange={handleVolumeChange}
-                          className="w-20 h-2 bg-muted rounded-lg appearance-none cursor-pointer"
+                          max="1"
+                          step="0.01"
+                          value={volume}
+                          onChange={(e) =>
+                            setVolume(parseFloat(e.target.value))
+                          }
+                          className="w-24 h-2 rounded-full accent-yellow-400 cursor-pointer transition-all duration-300 hover:scale-105"
+                          style={{
+                            background: `linear-gradient(to right, #facc15 ${
+                              volume * 100
+                            }%, #d1d5db ${volume * 100}%)`,
+                          }}
                         />
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -339,10 +352,21 @@ const GamelanPlayer = () => {
                     <div key={index} className="text-center">
                       <button
                         onClick={() => {
+                          // Stop semua audio lain terlebih dahulu
+                          Object.values(instrumentRefs.current).forEach(
+                            (audio) => {
+                              if (audio && !audio.paused) {
+                                audio.pause();
+                                audio.currentTime = 0;
+                              }
+                            }
+                          );
+
+                          // Mainkan audio yang dipilih
                           const audio =
                             instrumentRefs.current[instrument?.name];
                           if (audio) {
-                            audio.currentTime = 0; // reset biar bisa dipencet berkali2
+                            audio.currentTime = 0;
                             audio.play();
                           }
                         }}
@@ -422,7 +446,7 @@ const GamelanPlayer = () => {
             <Button
               variant="outline"
               size="lg"
-              className="border-primary/30 text-foreground hover:bg-primary/10 font-cta"
+              className="border-primary/30 text-foreground hover:bg-primary/10 font-cta rounded-xl"
               iconName="Headphones"
               iconPosition="left"
             >

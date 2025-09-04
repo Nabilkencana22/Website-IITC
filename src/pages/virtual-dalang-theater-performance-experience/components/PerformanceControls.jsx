@@ -40,7 +40,7 @@ const PerformanceControls = ({
     totalTime > 0 ? (currentTime / totalTime) * 100 : 0;
 
   return (
-    <div className="bg-card/95 backdrop-blur-cultural border-t border-border p-5 space-y-5 rounded-t-2xl shadow-lg">
+    <div className="bg-card/ backdrop-blur-cultural border-t border-border p-2 space-y-2 rounded-t-2xl shadow-lg">
       {/* Progress Bar */}
       <div className="space-y-2">
         <div className="flex items-center justify-between text-xs text-muted-foreground font-mono">
@@ -61,7 +61,6 @@ const PerformanceControls = ({
               className="h-full bg-gradient-to-r from-primary via-cultural-gold to-primary rounded-full shadow-inner"
             />
           </div>
-
         </div>
       </div>
 
@@ -71,7 +70,7 @@ const PerformanceControls = ({
         <div className="flex items-center space-x-2">
           <Button
             variant="ghost"
-            size="sm"
+            size="xl"
             iconName="SkipBack"
             onClick={() => onSceneChange(Math.max(1, currentScene - 1))}
             disabled={currentScene === 1}
@@ -80,7 +79,7 @@ const PerformanceControls = ({
 
           <Button
             variant="ghost"
-            size="sm"
+            size="xl"
             iconName="Rewind"
             onClick={() => onSeek(Math.max(0, currentTime - 10))}
             className="text-muted-foreground hover:text-foreground"
@@ -92,13 +91,13 @@ const PerformanceControls = ({
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={onPlayPause}
-            className="bg-gradient-to-r from-primary to-cultural-gold hover:from-primary/90 hover:to-cultural-gold/90 shadow-cultural w-16 h-16 rounded-full flex items-center justify-center"
+            className="bg-gradient-to-r from-primary to-cultural-gold hover:from-primary/90 hover:to-cultural-gold/90 shadow-cultural w-14 h-14 rounded-full flex items-center justify-center"
           >
             {isPlaying ? (
               // Pause Icon
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-8 h-8 text-white"
+                className="w-12 h-12 text-white"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -114,7 +113,7 @@ const PerformanceControls = ({
               // Play Icon
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-8 h-8 text-white"
+                className="w-7 h-7 text-white"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >
@@ -128,7 +127,7 @@ const PerformanceControls = ({
         <div className="flex items-center space-x-2">
           <Button
             variant="ghost"
-            size="sm"
+            size="xl"
             iconName="FastForward"
             onClick={() => onSeek(Math.min(totalTime, currentTime + 10))}
             className="text-muted-foreground hover:text-foreground"
@@ -136,7 +135,7 @@ const PerformanceControls = ({
 
           <Button
             variant="ghost"
-            size="sm"
+            size="xl"
             iconName="SkipForward"
             onClick={() =>
               onSceneChange(Math.min(totalScenes, currentScene + 1))
@@ -150,57 +149,12 @@ const PerformanceControls = ({
       {/* Advanced Controls */}
       <div className="flex items-center justify-between pt-3 border-t border-border">
         {/* Left Side - Audio & Display */}
-        <div className="flex items-center space-x-3">
-          {/* Volume Control */}
-          <div className="relative">
-            <Button
-              variant="ghost"
-              size="sm"
-              iconName={
-                volume === 0 ? "VolumeX" : volume < 50 ? "Volume1" : "Volume2"
-              }
-              onClick={() => setShowVolumeSlider(!showVolumeSlider)}
-              className="text-muted-foreground hover:text-foreground"
-            />
-
-            <AnimatePresence>
-              {showVolumeSlider && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-popover border border-border rounded-lg p-3 shadow-puppet"
-                >
-                  <div className="flex items-center space-x-2">
-                    <Icon
-                      name="Volume1"
-                      size={14}
-                      className="text-muted-foreground"
-                    />
-                    <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      value={volume}
-                      onChange={(e) =>
-                        onVolumeChange(parseInt(e?.target?.value))
-                      }
-                      className="w-24 h-1 bg-muted rounded-lg appearance-none cursor-pointer"
-                    />
-                    <span className="text-xs text-muted-foreground w-8">
-                      {volume}%
-                    </span>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+        <div className="flex items-center space-x-1">
 
           {/* Subtitles Toggle */}
           <Button
             variant="ghost"
-            size="sm"
+            size="xl"
             iconName="Subtitles"
             onClick={onToggleSubtitles}
             className={`${
@@ -211,7 +165,7 @@ const PerformanceControls = ({
           {/* Playback Speed */}
           <Button
             variant="ghost"
-            size="sm"
+            size="xl"
             onClick={handleSpeedChange}
             className="text-muted-foreground hover:text-foreground text-xs font-mono"
           >
@@ -220,11 +174,11 @@ const PerformanceControls = ({
         </div>
 
         {/* Right Side - Learning Features */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-1">
           {/* Educational Overlay Toggle */}
           <Button
             variant="ghost"
-            size="sm"
+            size="xl"
             iconName="Info"
             onClick={onToggleEducationalOverlay}
             className={`${
@@ -235,7 +189,7 @@ const PerformanceControls = ({
           {/* Voice Training */}
           <Button
             variant="ghost"
-            size="sm"
+            size="xl"
             iconName="Mic"
             onClick={onOpenVoiceTraining}
             className="text-muted-foreground hover:text-foreground"
@@ -244,7 +198,7 @@ const PerformanceControls = ({
           {/* Share Performance */}
           <Button
             variant="ghost"
-            size="sm"
+            size="xl"
             iconName="Share"
             onClick={() => {
               if (navigator.share) {
@@ -264,7 +218,7 @@ const PerformanceControls = ({
           {/* Fullscreen */}
           <Button
             variant="ghost"
-            size="sm"
+            size="xl"
             iconName="Maximize"
             onClick={() => {
               if (document.fullscreenElement) {

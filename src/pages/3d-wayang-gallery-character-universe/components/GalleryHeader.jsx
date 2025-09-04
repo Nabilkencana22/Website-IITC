@@ -11,10 +11,10 @@ const GalleryHeader = ({
   onRandomCharacter,
 }) => {
   const sortOptions = [
-    { value: "name", label: "Name (A-Z)", icon: "ArrowUpAZ" },
-    { value: "popularity", label: "Most Popular", icon: "TrendingUp" },
-    { value: "stories", label: "Most Stories", icon: "BookOpen" },
-    { value: "newest", label: "Newest Added", icon: "Clock" },
+    { value: "name", label: "Nama (A-Z)", icon: "ArrowUpAZ" },
+    { value: "popularity", label: "Terpopuler", icon: "TrendingUp" },
+    { value: "stories", label: "Cerita Terbanyak", icon: "BookOpen" },
+    { value: "newest", label: "Terbaru", icon: "Clock" },
   ];
 
   return (
@@ -47,25 +47,6 @@ const GalleryHeader = ({
 
         {/* Controls */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-          {/* View Mode Toggle */}
-          <div className="flex items-center bg-muted/40 rounded-xl p-1 shadow-inner">
-            <Button
-              variant={viewMode === "grid" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => onViewModeChange("grid")}
-              className="px-3 rounded-lg"
-            >
-              <Icon name="Grid3X3" size={16} />
-            </Button>
-            <Button
-              variant={viewMode === "list" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => onViewModeChange("list")}
-              className="px-3 rounded-lg"
-            >
-              <Icon name="List" size={16} />
-            </Button>
-          </div>
 
           {/* Sort Dropdown */}
           <div className="relative group">
@@ -124,25 +105,25 @@ const GalleryHeader = ({
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-8 pt-6 border-t border-white/10">
         {[
           {
-            value: 146,
+            value: 6,
             label: "Total Karakter",
             color: "text-primary",
             icon: "Users",
           },
           {
-            value: 45,
+            value: 3,
             label: "Pahlawan",
             color: "text-success",
             icon: "Shield",
           },
           {
-            value: 28,
+            value: 1,
             label: "Dewa",
             color: "text-cultural-gold",
             icon: "Sparkles",
           },
           {
-            value: 73,
+            value: 7,
             label: "Cerita",
             color: "text-accent",
             icon: "BookOpen",

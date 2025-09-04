@@ -67,22 +67,67 @@ const HeroSection = () => {
       </audio>
 
       {/* ANIMATED BACKGROUND */}
-      <div className="absolute inset-0">
-        <motion.div
-          className="absolute top-20 left-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl"
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ repeat: Infinity, duration: 6 }}
-        />
-        <motion.div
-          className="absolute bottom-20 right-10 w-48 h-48 bg-cultural-gold/20 rounded-full blur-3xl"
-          animate={{ scale: [1.2, 1, 1.2] }}
-          transition={{ repeat: Infinity, duration: 7 }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/4 w-32 h-32 bg-accent/20 rounded-full blur-3xl"
-          animate={{ y: [0, -20, 0] }}
-          transition={{ repeat: Infinity, duration: 5 }}
-        />
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Floating Blobs */}
+        {[
+          {
+            top: "10%",
+            left: "5%",
+            size: 40,
+            duration: 6,
+            color: "bg-primary/20",
+          },
+          {
+            top: "70%",
+            left: "80%",
+            size: 48,
+            duration: 7,
+            color: "bg-cultural-gold/20",
+          },
+          {
+            top: "50%",
+            left: "25%",
+            size: 32,
+            duration: 5,
+            color: "bg-accent/20",
+          },
+          {
+            top: "30%",
+            left: "60%",
+            size: 24,
+            duration: 8,
+            color: "bg-primary/10",
+          },
+          {
+            top: "80%",
+            left: "10%",
+            size: 36,
+            duration: 9,
+            color: "bg-cultural-gold/15",
+          },
+        ].map((blob, i) => (
+          <motion.div
+            key={i}
+            className={`absolute ${blob.color} rounded-full blur-3xl`}
+            style={{
+              width: blob.size,
+              height: blob.size,
+              top: blob.top,
+              left: blob.left,
+            }}
+            animate={{
+              y: [0, -20, 0],
+              x: [0, 15, -10, 0],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: blob.duration,
+              ease: "easeInOut",
+              repeatType: "mirror",
+            }}
+          />
+        ))}
       </div>
 
       <div className="relative z-10 container mx-auto px-6 pt-24 pb-16">
@@ -98,6 +143,8 @@ const HeroSection = () => {
               <motion.div
                 className="inline-flex items-center space-x-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2"
                 whileHover={{ scale: 1.05 }}
+                animate={{ opacity: [0.8, 1, 0.8] }}
+                transition={{ repeat: Infinity, duration: 3 }}
               >
                 <Icon name="Sparkles" size={16} className="text-primary" />
                 <span className="text-sm font-medium text-primary">
@@ -107,42 +154,57 @@ const HeroSection = () => {
 
               <h1 className="text-5xl md:text-7xl font-heading font-extrabold text-foreground leading-tight">
                 Wayang
-                <span className="block text-transparent bg-gradient-to-r from-primary via-cultural-gold to-accent bg-clip-text">
+                <span className="block text-transparent bg-gradient-to-r from-primary via-cultural-gold to-accent bg-clip-text animate-gradient-x">
                   Interactive
                 </span>
               </h1>
 
-              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+              <motion.p
+                className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.2 }}
+              >
                 Jelajahi warisan budaya Indonesia melalui pengalaman digital
                 yang memukau. Temukan karakter wayang, pelajari seni dalang, dan
                 ciptakan cerita Anda sendiri dalam platform interaktif yang
                 menghidupkan tradisi berusia berabad-abad.
-              </p>
+              </motion.p>
             </div>
 
             {/* CTA BUTTONS */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                variant="default"
-                size="lg"
-                className="bg-gradient-to-r from-primary to-cultural-gold hover:scale-105 transition-all duration-300 shadow-lg shadow-primary/30 font-cta"
-                iconName="Play"
-                iconPosition="left"
-                onClick={() => setModalType("petualangan")}
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="w-full sm:w-auto"
               >
-                Mulai Petualangan
-              </Button>
+                <Button
+                  variant="default"
+                  size="lg"
+                  className="bg-gradient-to-r from-primary to-cultural-gold transition-all duration-300 shadow-lg shadow-primary/30 font-cta rounded-xl"
+                  iconName="Play"
+                  iconPosition="left"
+                  onClick={() => setModalType("petualangan")}
+                >
+                  Mulai Petualangan
+                </Button>
+              </motion.div>
 
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-primary/30 text-foreground hover:bg-primary/10 hover:scale-105 transition-all duration-300 font-cta"
-                iconName="BookOpen"
-                iconPosition="left"
-                onClick={() => setModalType("tentang")}
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="w-full sm:w-auto"
               >
-                Pelajari Lebih Lanjut
-              </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-primary/30 text-foreground hover:bg-primary/10 transition-all duration-300 font-cta rounded-xl"
+                  iconName="BookOpen"
+                  iconPosition="left"
+                  onClick={() => setModalType("tentang")}
+                >
+                  Pelajari Lebih Lanjut
+                </Button>
+              </motion.div>
             </div>
 
             {/* STATS */}
@@ -168,6 +230,9 @@ const HeroSection = () => {
                   key={i}
                   className="text-center"
                   whileHover={{ scale: 1.1 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: i * 0.1 }}
                 >
                   <div className={`text-3xl font-bold ${stat.color}`}>
                     {stat.value}
@@ -190,7 +255,7 @@ const HeroSection = () => {
             <div className="relative w-full max-w-md mx-auto">
               <div className="relative aspect-[3/4] bg-gradient-to-br from-muted/30 to-muted/10 rounded-3xl border border-border/50 shadow-2xl overflow-hidden">
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${characters[currentCharacter]?.color} opacity-20`}
+                  className={`absolute inset-0 bg-gradient-to-br ${characters[currentCharacter]?.color} opacity-20 animate-pulse`}
                 ></div>
 
                 <AnimatePresence mode="wait">
@@ -207,7 +272,7 @@ const HeroSection = () => {
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ duration: 0.8 }}
-                        className="relative"
+                        className="relative hover:scale-105 hover:shadow-2xl transition-transform duration-500"
                       >
                         <Image
                           src={characters[currentCharacter]?.image}
@@ -257,7 +322,7 @@ const HeroSection = () => {
                       onClick={() => setCurrentCharacter(index)}
                       className={`w-3 h-3 rounded-full transition-all ${
                         index === currentCharacter
-                          ? "bg-primary w-6"
+                          ? "bg-primary w-6 animate-pulse"
                           : "bg-muted-foreground/30"
                       }`}
                     />
@@ -281,7 +346,11 @@ const HeroSection = () => {
               </div>
 
               {/* PLAY / PAUSE */}
-              <div className="absolute top-4 right-4">
+              <motion.div
+                className="absolute top-4 right-4"
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+              >
                 <button
                   onClick={togglePlayback}
                   className="p-3 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 hover:scale-110 transition shadow-lg"
@@ -292,7 +361,7 @@ const HeroSection = () => {
                     className="text-foreground"
                   />
                 </button>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -343,7 +412,7 @@ const HeroSection = () => {
               {modalType === "petualangan" && (
                 <div className="space-y-4 text-center">
                   <h2 className="text-2xl font-heading font-bold text-foreground">
-                    Selamat Datang di Petualangan 
+                    Selamat Datang di Petualangan
                   </h2>
                   <p className="text-muted-foreground">
                     Masuki dunia wayang interaktif! Pilih karakter favoritmu dan
@@ -363,11 +432,11 @@ const HeroSection = () => {
               {modalType === "tentang" && (
                 <div className="space-y-4 text-center">
                   <h2 className="text-2xl font-heading font-bold text-foreground">
-                    Tentang Wayang Interactive 
+                    Tentang Wayang Interactive
                   </h2>
                   <p className="text-muted-foreground leading-relaxed">
-                    Wayang Interactive adalah platform budaya digital untuk GenZ. 
-                    Kamu bisa belajar filosofi, mengenal karakter, dan
+                    Wayang Interactive adalah platform budaya digital untuk
+                    GenZ. Kamu bisa belajar filosofi, mengenal karakter, dan
                     menciptakan cerita sendiri dalam format interaktif.
                   </p>
                   <Button

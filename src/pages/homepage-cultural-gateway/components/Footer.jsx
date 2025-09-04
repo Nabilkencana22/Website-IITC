@@ -45,8 +45,8 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-b from-background to-shadow-black border-t border-border">
       {/* Main Footer */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid lg:grid-cols-6 gap-8">
+      <div className="container mx-auto  px-4 py-16">
+        <div className="grid lg:grid-cols-6 gap-10">
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <Link
@@ -77,7 +77,7 @@ const Footer = () => {
                 <a
                   key={social?.name}
                   href={social?.url}
-                  className="w-10 h-10 bg-muted/20 rounded-lg flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all duration-cultural-normal"
+                  className="w-10 h-10 bg-muted/20 rounded-xl flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all duration-cultural-normal"
                   aria-label={social?.name}
                 >
                   <Icon name={social?.icon} size={20} />
@@ -88,8 +88,8 @@ const Footer = () => {
 
           {/* Footer Links */}
           {footerSections?.map((section) => (
-            <div key={section?.title} className="lg:col-span-1">
-              <h4 className="font-heading font-semibold text-foreground mb-4">
+            <div key={section?.title} className="lg:col-span-1 ">
+              <h4 className="font-heading font-semibold text-foreground mb-4 ">
                 {section?.title}
               </h4>
               <ul className="space-y-3">

@@ -249,10 +249,6 @@ const CharacterViewer = ({ character, onClose }) => {
             </div>
 
             <div className="flex items-center space-x-2">
-              <Button variant="outline" onClick={handleAudioPlay}>
-                <Icon name={audioPlaying ? "VolumeX" : "Volume2"} size={16} />
-                {audioPlaying ? "Stop Audio" : "Play Audio"}
-              </Button>
               <Button variant="ghost">
                 <Icon name="Share" size={16} />
               </Button>
@@ -286,13 +282,6 @@ const CharacterViewer = ({ character, onClose }) => {
                     </Button>
                     <Button variant="ghost" size="sm" onClick={handleZoomOut}>
                       <Icon name="ZoomOut" size={16} />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={handleRotationToggle}
-                    >
-                      <Icon name="RefreshCw" size={16} />
                     </Button>
                   </div>
                 </div>

@@ -1,6 +1,7 @@
-import React from 'react';
-import Icon from '../../../components/AppIcon';
-import Image from '../../../components/AppImage';
+import React from "react";
+import { motion } from "framer-motion";
+import Icon from "../../../components/AppIcon";
+import Image from "../../../components/AppImage";
 
 const CulturalPartners = () => {
   const partners = [
@@ -56,54 +57,60 @@ const CulturalPartners = () => {
     },
   ];
 
-  // const testimonials = [
-  //   {
-  //     id: 1,
-  //     name: "Ki Dalang Purbo Asmoro",
-  //     title: "Master Dalang Tradisional",
-  //     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
-  //     quote: "Platform ini berhasil menjembatani tradisi kuno dengan teknologi modern. Generasi muda kini dapat belajar seni dalang dengan cara yang menyenangkan."
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Dr. Sari Kusuma",
-  //     title: "Ahli Budaya Jawa, Universitas Gadjah Mada",
-  //     avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
-  //     quote: "Wayang Interactive mempertahankan autentisitas budaya sambil membuatnya relevan untuk era digital. Ini adalah masa depan pelestarian budaya."
-  //   }
-  // ];
-
   return (
-    <section className="py-20 bg-gradient-to-b from-muted/20 to-background">
+    <section className="py-20 bg-gradient-to-b from-muted/20 to-background relative overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center space-x-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-6">
+          <motion.div
+            className="inline-flex items-center space-x-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
             <Icon name="Handshake" size={16} className="text-primary" />
             <span className="text-sm font-medium text-primary">
               Dipercaya oleh Institusi Budaya
             </span>
-          </div>
+          </motion.div>
 
-          <h2 className="text-3xl md:text-5xl font-heading font-bold text-foreground mb-6">
+          <motion.h2
+            className="text-3xl md:text-5xl font-heading font-bold text-foreground mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             Cagar
-            <span className="block text-transparent bg-gradient-to-r from-primary via-cultural-gold to-accent bg-clip-text">
+            <span className="block text-transparent bg-gradient-to-r from-primary via-cultural-gold to-accent bg-clip-text animate-gradient-x">
               Budaya Autentik
             </span>
-          </h2>
+          </motion.h2>
 
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          <motion.p
+            className="text-lg text-muted-foreground max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
             Berikut rujukan dari cagar budaya autentik dan ahli wayang terkemuka
             demi menjaga keaslian serta kualitas konten budaya yang kami
             sajikan.
-          </p>
+          </motion.p>
         </div>
 
         {/* Partners Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {partners?.map((partner) => (
-            <div
+          {partners?.map((partner, index) => (
+            <motion.div
               key={partner?.id}
               className="bg-card border border-border rounded-2xl p-6 text-center hover:shadow-puppet transition-all duration-cultural-normal puppet-hover"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: index * 0.2 }}
+              whileHover={{ scale: 1.05 }}
             >
               <div className="w-25 h-25 bg-muted/20 rounded-xl mx-auto mb-4 overflow-hidden">
                 <Image
@@ -124,21 +131,35 @@ const CulturalPartners = () => {
               <p className="text-sm text-muted-foreground">
                 {partner?.description}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Achievements */}
-        <div className="bg-gradient-to-r from-muted/10 to-muted/5 border border-border rounded-3xl p-8 mb-16">
+        <motion.div
+          className="bg-gradient-to-r from-muted/10 to-muted/5 border border-border rounded-3xl p-8 mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           <h3 className="text-2xl font-heading font-bold text-foreground text-center mb-8">
             Visi & Komitmen
           </h3>
 
           <div className="grid md:grid-cols-3 gap-8">
             {achievements?.map((achievement, index) => (
-              <div key={index} className="text-center">
+              <motion.div
+                key={index}
+                className="text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
+                whileHover={{ scale: 1.05 }}
+              >
                 <div
-                  className={`w-16 h-16 bg-muted/20 rounded-2xl flex items-center justify-center mx-auto mb-4`}
+                  className={`w-16 h-16 bg-muted/20 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse`}
                 >
                   <Icon
                     name={achievement?.icon}
@@ -154,74 +175,54 @@ const CulturalPartners = () => {
                 <p className="text-sm text-muted-foreground">
                   {achievement?.subtitle}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
-
-        {/* Testimonials
-        <div className="grid md:grid-cols-2 gap-8">
-          {testimonials?.map((testimonial) => (
-            <div
-              key={testimonial?.id}
-              className="bg-card border border-border rounded-2xl p-6"
-            >
-              <div className="flex items-start space-x-4 mb-4">
-                <Image
-                  src={testimonial?.avatar}
-                  alt={testimonial?.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <h4 className="font-heading font-semibold text-foreground">
-                    {testimonial?.name}
-                  </h4>
-                  <p className="text-sm text-muted-foreground">
-                    {testimonial?.title}
-                  </p>
-                </div>
-              </div>
-              
-              <blockquote className="text-muted-foreground italic">
-                "{testimonial?.quote}"
-              </blockquote>
-              
-              <div className="flex justify-end mt-4">
-                <div className="flex space-x-1">
-                  {[1, 2, 3, 4, 5]?.map((star) => (
-                    <Icon key={star} name="Star" size={16} className="text-yellow-500 fill-current" />
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div> */}
+        </motion.div>
 
         {/* Trust Indicators */}
-        <div className="text-center mt-16">
+        <motion.div
+          className="text-center mt-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           <div className="inline-flex items-center space-x-8 bg-card border border-border rounded-2xl px-8 py-4">
             <div className="flex items-center space-x-2">
-              <Icon name="Shield" size={20} className="text-emerald-500" />
+              <Icon
+                name="Shield"
+                size={20}
+                className="text-emerald-500 animate-pulse"
+              />
               <span className="text-sm text-muted-foreground">
                 Warisan Terjaga
               </span>
             </div>
 
             <div className="flex items-center space-x-2">
-              <Icon name="Award" size={20} className="text-primary" />
+              <Icon
+                name="Award"
+                size={20}
+                className="text-primary animate-pulse"
+              />
               <span className="text-sm text-muted-foreground">
                 Berlandaskan Nilai Budaya Luhur
               </span>
             </div>
 
             <div className="flex items-center space-x-2">
-              <Icon name="Users" size={20} className="text-accent" />
+              <Icon
+                name="Users"
+                size={20}
+                className="text-accent animate-pulse"
+              />
               <span className="text-sm text-muted-foreground">
                 Moklet Go Global
               </span>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,107 +1,89 @@
-# React
+🚀 Wayang Interactive – Portal Budaya Digital
 
-A modern React-based project utilizing the latest frontend technologies and tools for building responsive web applications.
+Website interaktif Wayang Kulit Indonesia, menampilkan pengalaman digital yang mendidik, animatif, dan menarik untuk generasi Z.
 
-## 🚀 Features
+🌟 Fitur Utama
 
-- **React 18** - React version with improved rendering and concurrent features
-- **Vite** - Lightning-fast build tool and development server
-- **Redux Toolkit** - State management with simplified Redux setup
-- **TailwindCSS** - Utility-first CSS framework with extensive customization
-- **React Router v6** - Declarative routing for React applications
-- **Data Visualization** - Integrated D3.js and Recharts for powerful data visualization
-- **Form Management** - React Hook Form for efficient form handling
-- **Animation** - Framer Motion for smooth UI animations
-- **Testing** - Jest and React Testing Library setup
+🎭 Karakter Wayang 3D – Jelajahi dunia wayang dengan model interaktif
+🎶 Gamelan Interaktif – Mainkan gamelan secara digital
+📝 Cerita Interaktif – Buat alur cerita Wayang sendiri
+⚛️ React 18 & Vite – Performa cepat dan modern
+🎨 Tailwind CSS – UI responsif dan estetis
+🎬 Framer Motion – Animasi halus di setiap halaman
+🎥 Demo Loading Screen
 
-## 📋 Prerequisites
+Loading screen Wayang Interaktif menampilkan animasi siluet Wayang dan cahaya blencong sebelum masuk ke halaman utama.
 
-- Node.js (v14.x or higher)
-- npm or yarn
+📌 GIF di atas bisa diganti dengan file GIF buatanmu sendiri, atau video pendek .mp4 yang di-convert ke GIF untuk GitHub.
 
-## 🛠️ Installation
+🛠 Instalasi & Jalankan Aplikasi
 
-1. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-   
-2. Start the development server:
-   ```bash
-   npm start
-   # or
-   yarn start
-   ```
+# Install dependencies
 
-## 📁 Project Structure
+npm install
 
-```
-react_app/
-├── public/             # Static assets
+# atau
+
+yarn install
+
+# Jalankan development server
+
+npm start
+
+# atau
+
+yarn start
+
+📁 Struktur Proyek
+wayang-interactive/
+├── public/  
+│ └── img/ # Siluet Wayang, icon, gambar statis
 ├── src/
-│   ├── components/     # Reusable UI components
-│   ├── pages/          # Page components
-│   ├── styles/         # Global styles and Tailwind configuration
-│   ├── App.jsx         # Main application component
-│   ├── Routes.jsx      # Application routes
-│   └── index.jsx       # Application entry point
-├── .env                # Environment variables
-├── index.html          # HTML template
-├── package.json        # Project dependencies and scripts
-├── tailwind.config.js  # Tailwind CSS configuration
-└── vite.config.js      # Vite configuration
-```
+│ ├── components/ # Komponen UI
+│ ├── pages/ # Halaman (Homepage, Gallery, Gamelan)
+│ ├── styles/ # Tailwind CSS & global styles
+│ ├── App.jsx
+│ ├── Routes.jsx
+│ └── index.jsx
+├── .env  
+├── index.html  
+├── package.json  
+├── tailwind.config.js  
+└── vite.config.js
 
-## 🧩 Adding Routes
+🧩 Menambahkan Route Baru
 
-To add new routes to the application, update the `Routes.jsx` file:
-
-```jsx
+Edit file Routes.jsx:
 import { useRoutes } from "react-router-dom";
-import HomePage from "pages/HomePage";
-import AboutPage from "pages/AboutPage";
+import HomepageCulturalGateway from "pages/homepage-cultural-gateway";
 
 const ProjectRoutes = () => {
-  let element = useRoutes([
-    { path: "/", element: <HomePage /> },
-    { path: "/about", element: <AboutPage /> },
-    // Add more routes as needed
-  ]);
+let element = useRoutes([
+{ path: "/", element: <HomepageCulturalGateway /> },
+// Tambahkan route baru di sini
+]);
 
-  return element;
+return element;
 };
-```
 
-## 🎨 Styling
+🎨 Styling & Animasi
 
-This project uses Tailwind CSS for styling. The configuration includes:
+Tailwind CSS untuk desain responsif dan konsisten
+Framer Motion untuk animasi loading dan interaksi UI
+Shadow, glow, dan efek hover untuk pengalaman visual yang premium
 
-- Forms plugin for form styling
-- Typography plugin for text styling
-- Aspect ratio plugin for responsive elements
-- Container queries for component-specific responsive design
-- Fluid typography for responsive text
-- Animation utilities
-
-## 📱 Responsive Design
-
-The app is built with responsive design using Tailwind CSS breakpoints.
-
-
-## 📦 Deployment
-
-Build the application for production:
-
-```bash
+📦 Build Produksi
 npm run build
-```
 
-## 🙏 Acknowledgments
+# atau
 
-- Built with [Rocket.new](https://rocket.new)
-- Powered by React and Vite
-- Styled with Tailwind CSS
+yarn build
 
-Built with ❤️ on Rocket.new
+Folder dist siap di-deploy ke server.
+
+📝 Tips Profesional
+
+Gunakan React Developer Tools untuk debugging
+Pastikan semua file case-sensitive sesuai import
+Optimalkan gambar & animasi agar GIF loading tidak berat
+Kombinasikan Framer Motion + Tailwind untuk UI interaktif

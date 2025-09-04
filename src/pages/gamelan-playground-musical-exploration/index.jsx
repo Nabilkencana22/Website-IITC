@@ -32,15 +32,17 @@ const GuidedSession = ({ isOpen, onClose }) => {
       />
       <div className="relative max-w-3xl w-full bg-card/95 backdrop-blur-xl rounded-2xl border border-border shadow-2xl p-6 z-10">
         <div className="flex items-start justify-between gap-4">
-          <div>
-            <h3 className="text-2xl font-cultural-heading text-foreground">
+          <div className="animate-fadeIn">
+            <h3 className="text-3xl md:text-4xl font-cultural-heading font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-cultural-gold">
               Panduan Interaktif
             </h3>
-            <p className="text-sm text-muted-foreground mt-2">
+            <p className="text-sm md:text-base text-muted-foreground mt-3 max-w-xl leading-relaxed">
               Ikuti panduan singkat untuk memahami instrumen, skala, dan pola
-              gamelan. Cocok untuk pemula sampai menengah.
+              gamelan. Cocok untuk pemula hingga menengah. Rasakan pengalaman
+              belajar yang menyenangkan dan interaktif!
             </p>
           </div>
+
           <Button
             variant="ghost"
             size="sm"
@@ -51,46 +53,52 @@ const GuidedSession = ({ isOpen, onClose }) => {
           />
         </div>
 
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-muted/10 rounded-lg border border-border">
-            <h4 className="text-sm font-semibold text-foreground mb-1">
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="p-6 bg-card/90 rounded-xl border border-border shadow-md hover:shadow-lg transition-all duration-300">
+            <h4 className="text-base font-semibold text-foreground mb-2">
               Langkah 1
             </h4>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-sm text-foreground/90 leading-relaxed">
               Kenali instrumen: ketuk pad untuk mendengar suara tiap instrumen.
             </p>
           </div>
-          <div className="p-4 bg-muted/10 rounded-lg border border-border">
-            <h4 className="text-sm font-semibold text-foreground mb-1">
+
+          <div className="p-6 bg-card/90 rounded-xl border border-border shadow-md hover:shadow-lg transition-all duration-300">
+            <h4 className="text-base font-semibold text-foreground mb-2">
               Langkah 2
             </h4>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-sm text-foreground/90 leading-relaxed">
               Cobalah kombinasi sederhana: gong + saron + kendang.
             </p>
           </div>
-          <div className="p-4 bg-muted/10 rounded-lg border border-border">
-            <h4 className="text-sm font-semibold text-foreground mb-1">
+
+          <div className="p-6 bg-card/90 rounded-xl border border-border shadow-md hover:shadow-lg transition-all duration-300">
+            <h4 className="text-base font-semibold text-foreground mb-2">
               Langkah 3
             </h4>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-sm text-foreground/90 leading-relaxed">
               Pelajari skala: pelog vs slendro dan rasakan suasana yang berbeda.
             </p>
           </div>
         </div>
 
-        <div className="mt-6 flex justify-end gap-3">
-          <Button variant="outline" size="md" onClick={onClose}>
+        <div className="mt-6 flex justify-end gap-4">
+          <Button
+            variant="outline"
+            size="md"
+            onClick={onClose}
+            className="border border-muted/50 font-sans text-foreground hover:bg-muted/10 hover:border-primary transition-all duration-300 rounded-xl px-5 py-2"
+          >
             Tutup
           </Button>
+
           <Button
             variant="default"
             size="md"
             onClick={() => {
-              // contoh action: close and maybe focus first instrument pad
               onClose();
-              // (parent can implement focusing logic if needed)
             }}
-            className="bg-gradient-to-r from-primary to-cultural-gold"
+            className="bg-gradient-to-r from-primary to-cultural-gold text-white font-sans shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 rounded-xl px-6 py-2"
           >
             Mulai Panduan
           </Button>
@@ -353,25 +361,25 @@ const GamelanPlaygroundPage = () => {
 
               {/* Quick Stats */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto mb-8">
-                <div className="bg-card/60 backdrop-blur rounded-lg p-4 border border-border shadow-sm">
+                <div className="bg-card/60 backdrop-blur rounded-xl p-4 border border-border shadow-sm">
                   <div className="text-2xl font-cultural-cta text-primary">
                     {gamelanInstruments.length}
                   </div>
                   <div className="text-sm text-muted-foreground">Instrumen</div>
                 </div>
-                <div className="bg-card/60 backdrop-blur rounded-lg p-4 border border-border shadow-sm">
+                <div className="bg-card/60 backdrop-blur rounded-xl p-4 border border-border shadow-sm">
                   <div className="text-2xl font-cultural-cta text-accent">
                     2
                   </div>
                   <div className="text-sm text-muted-foreground">Skala</div>
                 </div>
-                <div className="bg-card/60 backdrop-blur rounded-lg p-4 border border-border shadow-sm">
+                <div className="bg-card/60 backdrop-blur rounded-xl p-4 border border-border shadow-sm">
                   <div className="text-2xl font-cultural-cta text-secondary">
                     {featuredCompositions.length}
                   </div>
                   <div className="text-sm text-muted-foreground">Komposisi</div>
                 </div>
-                <div className="bg-card/60 backdrop-blur rounded-lg p-4 border border-border shadow-sm">
+                <div className="bg-card/60 backdrop-blur rounded-xl p-4 border border-border shadow-sm">
                   <div className="text-2xl font-cultural-cta text-success">
                     ∞
                   </div>
@@ -381,35 +389,38 @@ const GamelanPlaygroundPage = () => {
                 </div>
               </div>
 
-              {/* Action Buttons (removed "Mulai Bermain") */}
-              <div className="flex flex-wrap justify-center gap-4">
+              {/* Action Buttons (Professional Style) */}
+              <div className="flex flex-wrap justify-center gap-6 mt-6">
+                {/* Primary Button - Guided Session */}
                 <Button
                   variant="default"
                   size="lg"
                   onClick={() => openModal("guided-session")}
-                  className="bg-gradient-to-r from-primary to-cultural-gold shadow-cultural flex items-center"
+                  className="bg-gradient-to-r from-primary to-cultural-gold shadow-lg shadow-primary/50 hover:scale-105 hover:shadow-xl transition-all duration-300 flex items-center rounded-xl px-6 py-3 font-semibold text-white"
                 >
-                  <Icon name="BookOpen" size={18} className="mr-2" />
+                  <Icon name="BookOpen" size={20} className="mr-3" />
                   Panduan Interaktif
                 </Button>
 
+                {/* Secondary Button - Composition Studio */}
                 <Button
                   variant="outline"
                   size="lg"
                   onClick={() => openModal("composition-studio")}
-                  className="flex items-center"
+                  className="border border-primary text-primary hover:bg-primary/10 hover:scale-105 transition-all duration-300 flex items-center rounded-xl px-6 py-3 font-medium"
                 >
-                  <Icon name="Edit3" size={18} className="mr-2" />
+                  <Icon name="Edit3" size={20} className="mr-3" />
                   Buat Musik
                 </Button>
 
+                {/* Ghost Button - Collaborative Session */}
                 <Button
                   variant="ghost"
                   size="lg"
                   onClick={() => openModal("collaborative-session")}
-                  className="flex items-center"
+                  className="text-primary hover:bg-primary/10 hover:scale-105 transition-all duration-300 flex items-center rounded-xl px-6 py-3 font-medium"
                 >
-                  <Icon name="Users" size={18} className="mr-2" />
+                  <Icon name="Users" size={20} className="mr-3" />
                   Bergabung Sesi
                 </Button>
               </div>
@@ -432,8 +443,9 @@ const GamelanPlaygroundPage = () => {
               {/* Master Controls */}
               <div className="bg-card rounded-2xl shadow-puppet border border-border p-6 mb-8">
                 <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-6">
-                    <div className="flex items-center gap-2">
+                  <div className="flex flex-col md:flex-row items-center gap-6">
+                    {/* Volume Master */}
+                    <div className="flex items-center gap-3">
                       <Icon
                         name="Volume2"
                         size={20}
@@ -449,11 +461,22 @@ const GamelanPlaygroundPage = () => {
                         max="100"
                         value={Math.round(masterVolume * 100)}
                         onChange={(e) => setMasterVolume(e.target.value / 100)}
-                        className="w-28 h-2 bg-muted rounded-lg appearance-none cursor-pointer"
+                        className="w-32 h-2 rounded-full appearance-none cursor-pointer
+                 bg-gradient-to-r from-primary to-cultural-gold
+                 accent-primary hover:accent-cultural-gold"
+                        style={{
+                          background: `linear-gradient(to right, #f59e0b ${Math.round(
+                            masterVolume * 100
+                          )}%, #d1d5db ${Math.round(masterVolume * 100)}%)`,
+                        }}
                       />
+                      <span className="text-sm font-semibold text-foreground w-10 text-right">
+                        {Math.round(masterVolume * 100)}%
+                      </span>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    {/* Tempo Control */}
+                    <div className="flex items-center gap-3">
                       <Icon
                         name="Clock"
                         size={20}
@@ -469,9 +492,16 @@ const GamelanPlaygroundPage = () => {
                         onChange={(e) =>
                           setCurrentTempo(parseInt(e.target.value))
                         }
-                        className="w-28 h-2 bg-muted rounded-lg appearance-none cursor-pointer"
+                        className="w-32 h-2 rounded-full appearance-none cursor-pointer
+                 bg-gradient-to-r from-secondary to-accent
+                 accent-secondary hover:accent-accent"
+                        style={{
+                          background: `linear-gradient(to right, #34d399 ${
+                            ((currentTempo - 60) / 140) * 100
+                          }%, #d1d5db ${((currentTempo - 60) / 140) * 100}%)`,
+                        }}
                       />
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-sm font-semibold text-foreground w-12 text-right">
                         {currentTempo} BPM
                       </span>
                     </div>
@@ -731,7 +761,7 @@ const GamelanPlaygroundPage = () => {
                 ))}
               </div>
 
-              <div className="text-center mt-8">
+              <div className="text-center mt-8 ">
                 <Button variant="outline" size="lg">
                   <Icon name="Music" size={20} className="mr-2" /> Jelajahi
                   semua komposisi
@@ -803,12 +833,8 @@ const GamelanPlaygroundPage = () => {
         <footer className="bg-card border-t border-border py-12 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto text-center">
             <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-cultural-gold rounded-lg flex items-center justify-center">
-                <Icon
-                  name="Music"
-                  size={24}
-                  className="text-primary-foreground"
-                />
+              <div className="w-12 h-12 bg-gradient-to-br from-primary to-cultural-gold rounded-full flex items-center justify-center">
+                <img src="img/4.svg" alt="" />
               </div>
               <h3 className="text-xl font-cultural-heading">
                 Wayang Interaktif

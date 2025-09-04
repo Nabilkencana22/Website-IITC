@@ -16,7 +16,10 @@ export default {
         "2xl": "1400px",
       },
     },
+    
+    
     extend: {
+      
       colors: {
         border: "var(--color-border)", /* border-gray */
         input: "var(--color-input)", /* subtle-puppet-stage-gray */
@@ -70,6 +73,8 @@ export default {
           "shadow-foreground": "var(--color-shadow-black-foreground)", /* warm-cream */
           parchment: "var(--color-parchment)", /* soft-parchment */
           "parchment-foreground": "var(--color-parchment-foreground)", /* deep-cultural-brown */
+
+          
         },
       },
       fontFamily: {

@@ -237,6 +237,7 @@ const FilterPanel = ({
               <Icon name="TrendingUp" size={16} className="mr-2 text-primary" />
               Rentang Popularitas
             </h4>
+
             <div className="space-y-3">
               <input
                 type="range"
@@ -249,8 +250,51 @@ const FilterPanel = ({
                     minPopularity: parseInt(e?.target?.value),
                   })
                 }
-                className="w-full h-2 bg-gradient-to-r from-primary to-accent rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, var(--tw-gradient-from,#f99e0cff) ${
+                    filters?.minPopularity || 0
+                  }%, #e5e7eb ${filters?.minPopularity || 0}%)`,
+                }}
+                className="
+        w-full h-2 rounded-full cursor-pointer appearance-none 
+        transition-all duration-300 focus:outline-none
+
+        [&::-webkit-slider-runnable-track]:h-2
+        [&::-webkit-slider-runnable-track]:rounded-full
+
+        [&::-webkit-slider-thumb]:appearance-none
+        [&::-webkit-slider-thumb]:w-5
+        [&::-webkit-slider-thumb]:h-5
+        [&::-webkit-slider-thumb]:rounded-full
+        [&::-webkit-slider-thumb]:bg-white
+        [&::-webkit-slider-thumb]:shadow-md
+        [&::-webkit-slider-thumb]:border-2
+        [&::-webkit-slider-thumb]:border-primary
+        [&::-webkit-slider-thumb]:hover:scale-110
+        [&::-webkit-slider-thumb]:transition-transform
+        [&::-webkit-slider-thumb]:relative
+        [&::-webkit-slider-thumb]:top-1/2
+        [&::-webkit-slider-thumb]:-translate-y-1/2
+
+        [&::-moz-range-track]:h-2
+        [&::-moz-range-track]:rounded-full
+
+        [&::-moz-range-thumb]:appearance-none
+        [&::-moz-range-thumb]:w-5
+        [&::-moz-range-thumb]:h-5
+        [&::-moz-range-thumb]:rounded-full
+        [&::-moz-range-thumb]:bg-white
+        [&::-moz-range-thumb]:shadow-md
+        [&::-moz-range-thumb]:border-2
+        [&::-moz-range-thumb]:border-primary
+        [&::-moz-range-thumb]:hover:scale-110
+        [&::-moz-range-thumb]:transition-transform
+        [&::-moz-range-thumb]:relative
+        [&::-moz-range-thumb]:top-1/2
+        [&::-moz-range-thumb]:-translate-y-1/2
+      "
               />
+
               <div className="text-center">
                 <span className="text-sm text-primary font-medium">
                   Min: {filters?.minPopularity || 0}%
