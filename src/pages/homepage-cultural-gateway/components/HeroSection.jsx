@@ -38,7 +38,7 @@ const HeroSection = () => {
       description:
         "Kera putih yang memiliki kekuatan luar biasa dan kesetiaan tanpa batas",
       image:
-        "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/0f1c7348-ae01-4fc9-905b-540b5b3e767d/d1exmmj-b23a21e9-f83b-4366-8240-98df66b60b14.jpg",
+        "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/0f1c7348-ae01-4fc9-905b-540b5b3e767d/d1exmmj-b23a21e9-f83b-4366-8240-98df66b60b14.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTpmaWxlLmRvd25sb2FkIl0sIm9iaiI6W1t7InBhdGgiOiIvZi8wZjFjNzM0OC1hZTAxLTRmYzktOTA1Yi01NDBiNWIzZTc2N2QvZDFleG1tai1iMjNhMjFlOS1mODNiLTQzNjYtODI0MC05OGRmNjZiNjBiMTQuanBnIn1dXX0.BvMZji1M7cYJRpaSXRydKh8Zo2YL3GresaNZxkPUTc4",
       color: "from-orange-600 to-red-800",
     },
   ];
