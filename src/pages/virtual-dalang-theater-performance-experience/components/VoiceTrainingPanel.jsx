@@ -15,47 +15,47 @@ const VoiceTrainingPanel = ({ isOpen, onClose, selectedCharacter }) => {
 
   const voiceCharacteristics = {
     arjuna: {
-      name: 'Arjuna',
-      type: 'Refined Hero',
-      pitch: 'Medium-High',
-      tempo: 'Moderate',
-      style: 'Noble and contemplative',
-      sample_text: `Kresna, aku bingung melihat saudara-saudaraku di medan perang.\nApakah benar aku harus berperang melawan mereka?`,
+      name: "Arjuna",
+      type: "Pahlawan Yang Disempurnakan",
+      pitch: "Sedang-Tinggi",
+      tempo: "Sedang",
+      style: "Noble dan reflektif",
+      sample_text: `Kresna, aku bingung ndeleng sedulur-sedulureku ing medan perang.\nApa bener aku kudu perang nglawan dheweke?`,
       techniques: [
-        'Smooth, flowing delivery',
-        'Slight vibrato on emotional words',
-        'Pauses for contemplation',
-        'Rising intonation for questions'
-      ]
+        "Pengantaran yang halus dan mengalir",
+        "Sedikit vibrato pada kata-kata emosional",
+        "Jeda untuk merenung",
+        "Intonasi naik untuk pertanyaan",
+      ],
     },
     semar: {
-      name: 'Semar',
-      type: 'Divine Clown',
-      pitch: 'Low-Medium',
-      tempo: 'Variable',
-      style: 'Wise yet humorous',
-      sample_text: `Heh heh heh... Anak-anakku, hidup itu seperti wayang.\nAda yang di depan layar, ada yang di belakang.`,
+      name: "Semar",
+      type: "Badut Ilahi",
+      pitch: "Rendah-Sedang",
+      tempo: "Variabel",
+      style: "Bijaksana namun lucu",
+      sample_text: `Heh heh heh... Anak-anakku, urip iku kaya wayang.\nAna sing ing ngarep layar, ana sing ing mburi.`,
       techniques: [
-        'Characteristic chuckle (heh heh heh)',
-        'Warm, fatherly tone',
-        'Playful rhythm changes',
-        'Emphasis on wisdom words'
-      ]
+        "Tawa khas (heh heh heh)",
+        "Nada hangat, seperti ayah",
+        "Perubahan ritme yang playful",
+        "Penekanan pada kata-kata bijak.",
+      ],
     },
     rahwana: {
-      name: 'Rahwana',
-      type: 'Demon King',
-      pitch: 'Deep',
-      tempo: 'Slow and Powerful',
-      style: 'Commanding and fierce',
-      sample_text: `Aku Rahwana, raja Alengka yang perkasa!\nTidak ada yang dapat mengalahkan kekuatanku!`,
+      name: "Rahwana",
+      type: "Raja Iblis",
+      pitch: "Dalam",
+      tempo: "Lambat dan Kuat",
+      style: "Memerintah dan garang",
+      sample_text: `Aku Rahwana, raja Alengka sing perkasa!\nOra ana sing bisa ngalahake kekuatanku!`,
       techniques: [
-        'Deep, resonant voice',
-        'Dramatic pauses',
-        'Forceful consonants',
-        'Intimidating crescendos'
-      ]
-    }
+        "Suara yang dalam dan bergema",
+        "Jeda dramatis",
+        "Konsonan yang kuat",
+        "Crescendo yang mengintimidasi",
+      ],
+    },
   };
 
   const currentCharacter = voiceCharacteristics?.[selectedCharacter] || voiceCharacteristics?.arjuna;
@@ -97,11 +97,11 @@ const VoiceTrainingPanel = ({ isOpen, onClose, selectedCharacter }) => {
             emotional_delivery: Math.floor(Math.random() * 35) + 65,
             overall_score: Math.floor(Math.random() * 20) + 75,
             feedback: [
-              'Good pitch control in the opening phrase',
-              'Try to slow down during emotional moments',
-              'Excellent pronunciation of traditional terms',
-              'Work on building more dramatic tension'
-            ]
+              "Pengendalian nada yang baik di frasa pembuka",
+              "Cobalah untuk perlahan-lahan saat momen emosional",
+              "Pengucapan istilah tradisional yang sangat baik",
+              "Kerjakan untuk membangun ketegangan dramatis yang lebih banyak",
+            ],
           });
         }, 2000);
       };
@@ -109,8 +109,8 @@ const VoiceTrainingPanel = ({ isOpen, onClose, selectedCharacter }) => {
       mediaRecorderRef?.current?.start();
       setIsRecording(true);
     } catch (error) {
-      console.error('Error starting recording:', error);
-      alert('Unable to access microphone. Please check permissions.');
+      console.error("Kesalahan saat memulai perekaman:", error);
+      alert("Tidak bisa mengakses mikrofon. Silakan periksa izin.");
     }
   };
 
@@ -268,8 +268,8 @@ const VoiceTrainingPanel = ({ isOpen, onClose, selectedCharacter }) => {
                   disabled={playingMaster}
                 >
                   {playingMaster
-                    ? "Playing Master Sample..."
-                    : "Play Master Sample"}
+                    ? "Memainkan Sampel Utama..."
+                    : "Mainkan Sampel Utama"}
                 </Button>
               </div>
             </div>
@@ -283,10 +283,10 @@ const VoiceTrainingPanel = ({ isOpen, onClose, selectedCharacter }) => {
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-muted-foreground">
                     {isRecording
-                      ? "Recording..."
+                      ? "Merekam..."
                       : recordedAudio
-                      ? "Recording Complete"
-                      : "No Recording"}
+                      ? "Perekaman Lengkap"
+                      : "Tidak Merekam"}
                   </span>
                   {isRecording && (
                     <span className="text-xs text-error font-mono">
@@ -303,7 +303,7 @@ const VoiceTrainingPanel = ({ isOpen, onClose, selectedCharacter }) => {
                     iconPosition="left"
                     onClick={isRecording ? stopRecording : startRecording}
                   >
-                    {isRecording ? "Stop Recording" : "Start Recording"}
+                    {isRecording ? "Berhenti Merekam" : "Mulai Merekam"}
                   </Button>
 
                   {recordedAudio && (
@@ -336,14 +336,14 @@ const VoiceTrainingPanel = ({ isOpen, onClose, selectedCharacter }) => {
                   { label: "Pitch", value: analysisResult?.pitch_accuracy },
                   { label: "Tempo", value: analysisResult?.tempo_match },
                   {
-                    label: "Pronunciation",
+                    label: "Pengucapan",
                     value: analysisResult?.pronunciation,
                   },
                   {
-                    label: "Emotion",
+                    label: "Emosi",
                     value: analysisResult?.emotional_delivery,
                   },
-                  { label: "Overall", value: analysisResult?.overall_score },
+                  { label: "Semua", value: analysisResult?.overall_score },
                 ]?.map((metric, index) => (
                   <div key={index} className="text-center space-y-1">
                     <div
@@ -406,7 +406,7 @@ const VoiceTrainingPanel = ({ isOpen, onClose, selectedCharacter }) => {
                     setAnalysisResult(null);
                   }}
                 >
-                  Try Again
+                  Coba Lagi
                 </Button>
                 <Button
                   variant="default"

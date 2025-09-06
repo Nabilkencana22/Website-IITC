@@ -66,17 +66,11 @@ const Header = ({ className = "" }) => {
       <div className="hidden sm:block">
         <motion.h1
           className="text-xl font-heading font-bold text-foreground group-hover:text-primary transition-colors duration-300"
-          initial={{ y: -10, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6 }}
         >
           Budaya Kita
         </motion.h1>
         <motion.p
           className="text-xs text-muted-foreground font-body"
-          initial={{ y: -10, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
         >
           Wayang Kulit
         </motion.p>

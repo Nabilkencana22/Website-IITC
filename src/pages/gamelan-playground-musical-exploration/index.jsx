@@ -462,8 +462,8 @@ const GamelanPlaygroundPage = () => {
                         value={Math.round(masterVolume * 100)}
                         onChange={(e) => setMasterVolume(e.target.value / 100)}
                         className="w-32 h-2 rounded-full appearance-none cursor-pointer
-                 bg-gradient-to-r from-primary to-cultural-gold
-                 accent-primary hover:accent-cultural-gold"
+                          bg-gradient-to-r from-primary to-cultural-gold
+                          accent-primary hover:accent-cultural-gold"
                         style={{
                           background: `linear-gradient(to right, #f59e0b ${Math.round(
                             masterVolume * 100
@@ -493,8 +493,8 @@ const GamelanPlaygroundPage = () => {
                           setCurrentTempo(parseInt(e.target.value))
                         }
                         className="w-32 h-2 rounded-full appearance-none cursor-pointer
-                 bg-gradient-to-r from-secondary to-accent
-                 accent-secondary hover:accent-accent"
+                          bg-gradient-to-r from-secondary to-accent
+                          accent-secondary hover:accent-accent"
                         style={{
                           background: `linear-gradient(to right, #34d399 ${
                             ((currentTempo - 60) / 140) * 100
@@ -537,16 +537,7 @@ const GamelanPlaygroundPage = () => {
                     <div className="text-sm font-cultural-cta text-primary">
                       Suasana: {scales[selectedScale].mood}
                     </div>
-                    <div className="flex gap-1 mt-2">
-                      {scales[selectedScale].notes.map((note, idx) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-1 bg-primary/20 rounded text-xs"
-                        >
-                          {note}
-                        </span>
-                      ))}
-                    </div>
+                    <div className="flex gap-1 mt-2"></div>
                   </div>
                 </div>
               </div>
