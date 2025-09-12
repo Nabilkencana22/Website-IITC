@@ -8,9 +8,8 @@ import Header from "../../components/ui/Header";
 import TheaterStage from "./components/TheaterStage";
 import StorySelector from "./components/StorySelector";
 import VoiceTrainingPanel from "./components/VoiceTrainingPanel";
-import PerformanceControls from "./components/PerformanceControls";
 import SubtitleDisplay from "./components/SubtitleDisplay";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const VirtualDalangTheaterPerformanceExperience = () => {
   // Performance state
@@ -34,9 +33,9 @@ const VirtualDalangTheaterPerformanceExperience = () => {
   });
 
   const storyConfigs = {
-    bharatayuddha: { scenes: 3, duration: 780 },
-    ramayana: { scenes: 3, duration: 660 },
-    folklore: { scenes: 2, duration: 480 },
+    bharatayuddha: { scenes: 3, duration: 780, title: "Bharatayuddha" },
+    ramayana: { scenes: 3, duration: 660, title: "Ramayana" },
+    folklore: { scenes: 2, duration: 480, title: "Cerita Rakyat" },
   };
 
   // Auto-play timer
@@ -171,8 +170,7 @@ const VirtualDalangTheaterPerformanceExperience = () => {
                 >
                   <Icon name="Clock" size={16} className="text-primary" />
                   <span>
-                    {Math.floor(userProgress.totalWatchTime / 60)} Durasi
-                    Tontonan
+                    {Math.floor(userProgress.totalWatchTime / 60)}m durasi
                   </span>
                 </motion.div>
                 <motion.div
@@ -274,6 +272,98 @@ const VirtualDalangTheaterPerformanceExperience = () => {
                 language="indonesian"
               />
 
+              {/* Floating Control Bar */}
+              <AnimatePresence>
+                {isPerformanceStarted && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30"
+                  >
+                    <div className="bg-background/80 backdrop-blur-xl border border-amber-500/30 rounded-3xl shadow-2xl p-4 flex items-center space-x-4">
+                      {/* Play/Pause Button */}
+                      <Button
+                        variant="ghost"
+                        size="lg"
+                        iconName={isPlaying ? "Pause" : "Play"}
+                        onClick={handlePlayPause}
+                        className="w-12 h-12 rounded-full bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 hover:text-amber-100 transition-all duration-300"
+                      />
+
+                      {/* Scene Navigation */}
+                      <div className="flex items-center space-x-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          iconName="ChevronLeft"
+                          onClick={() => handleSceneChange(currentScene - 1)}
+                          disabled={currentScene <= 1}
+                          className="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 text-white disabled:opacity-30"
+                        />
+
+                        <div className="text-sm text-amber-200 font-medium px-2 py-1 bg-amber-500/20 rounded-lg">
+                          Adegan {currentScene}/{getTotalScenes()}
+                        </div>
+
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          iconName="ChevronRight"
+                          onClick={() => handleSceneChange(currentScene + 1)}
+                          disabled={currentScene >= getTotalScenes()}
+                          className="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 text-white disabled:opacity-30"
+                        />
+                      </div>
+
+                      {/* Volume Control */}
+                      <div className="flex items-center space-x-2">
+                        <Icon
+                          name="Volume2"
+                          size={16}
+                          className="text-amber-300"
+                        />
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          value={volume}
+                          onChange={(e) =>
+                            handleVolumeChange(parseInt(e.target.value))
+                          }
+                          className="w-20 h-1 bg-amber-500/30 rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:cursor-pointer"
+                        />
+                      </div>
+
+                      {/* Additional Controls */}
+                      <div className="flex items-center space-x-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          iconName={
+                            showSubtitles ? "Subtitles" : "SubtitlesOff"
+                          }
+                          onClick={handleToggleSubtitles}
+                          className={`w-10 h-10 rounded-lg ${
+                            showSubtitles
+                              ? "bg-amber-500/20 text-amber-300"
+                              : "bg-white/5 text-white/70"
+                          } hover:bg-white/10 transition-all duration-300`}
+                        />
+
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          iconName="Mic"
+                          onClick={handleOpenVoiceTraining}
+                          className="w-10 h-10 rounded-lg bg-white/5 text-white hover:bg-white/10 transition-all duration-300"
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               {/* Back to Selection Button */}
               <div className="absolute top-4 left-4 z-30">
                 <Button
@@ -292,26 +382,28 @@ const VirtualDalangTheaterPerformanceExperience = () => {
                   Kembali ke Cerita
                 </Button>
               </div>
-            </div>
 
-            {/* Performance Controls */}
-            <PerformanceControls
-              isPlaying={isPlaying}
-              onPlayPause={handlePlayPause}
-              currentTime={currentTime}
-              totalTime={totalTime}
-              onSeek={handleSeek}
-              currentScene={currentScene}
-              totalScenes={getTotalScenes()}
-              onSceneChange={handleSceneChange}
-              volume={volume}
-              onVolumeChange={handleVolumeChange}
-              showSubtitles={showSubtitles}
-              onToggleSubtitles={handleToggleSubtitles}
-              onOpenVoiceTraining={handleOpenVoiceTraining}
-              onToggleEducationalOverlay={handleToggleEducationalOverlay}
-              showEducationalOverlay={showEducationalOverlay}
-            />
+              {/* Story Title Overlay */}
+              <AnimatePresence>
+                {isPerformanceStarted && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="absolute top-4 right-4 z-30"
+                  >
+                    <div className="bg-background/70 backdrop-blur-md border border-amber-500/30 rounded-xl px-4 py-2">
+                      <h3 className="text-amber-300 font-semibold text-sm">
+                        {storyConfigs[selectedStory]?.title}
+                      </h3>
+                      <p className="text-amber-200/80 text-xs">
+                        Adegan {currentScene} dari {getTotalScenes()}
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         )}
 

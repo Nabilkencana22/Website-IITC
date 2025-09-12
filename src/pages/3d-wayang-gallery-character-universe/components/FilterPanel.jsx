@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Icon from "../../../components/AppIcon";
 import Button from "../../../components/ui/Button";
 import Input from "../../../components/ui/Input";
+import { motion, AnimatePresence } from "framer-motion";
 
 const FilterPanel = ({
   filters,
@@ -11,34 +12,72 @@ const FilterPanel = ({
   onToggle,
 }) => {
   const [searchTerm, setSearchTerm] = useState(filters?.search || "");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const characterTypes = [
-    { id: "hero", label: "Heroes", count: 45, color: "text-success" },
-    { id: "villain", label: "Villains", count: 32, color: "text-destructive" },
-    { id: "deity", label: "Deities", count: 28, color: "text-cultural-gold" },
-    { id: "comic", label: "Comic Relief", count: 18, color: "text-accent" },
+    {
+      id: "hero",
+      label: "Pahlawan",
+      count: 45,
+      color: "text-green-400",
+      icon: "Shield",
+      bgColor: "bg-green-500/15",
+    },
+    {
+      id: "villain",
+      label: "Penjahat",
+      count: 32,
+      color: "text-red-400",
+      icon: "Skull",
+      bgColor: "bg-red-500/15",
+    },
+    {
+      id: "deity",
+      label: "Dewa",
+      count: 28,
+      color: "text-amber-400",
+      icon: "Sparkles",
+      bgColor: "bg-amber-500/15",
+    },
+    {
+      id: "comic",
+      label: "Pelawak",
+      count: 18,
+      color: "text-purple-400",
+      icon: "Laugh",
+      bgColor: "bg-purple-500/15",
+    },
     {
       id: "neutral",
-      label: "Neutral",
+      label: "Netral",
       count: 23,
-      color: "text-muted-foreground",
+      color: "text-slate-400",
+      icon: "User",
+      bgColor: "bg-slate-500/15",
     },
   ];
 
   const storyOrigins = [
-    { id: "mahabharata", label: "Mahabharata", count: 67 },
-    { id: "ramayana", label: "Ramayana", count: 54 },
-    { id: "javanese", label: "Javanese Folklore", count: 43 },
-    { id: "sundanese", label: "Sundanese Tales", count: 21 },
-    { id: "balinese", label: "Balinese Stories", count: 15 },
+    { id: "mahabharata", label: "Mahabharata", count: 67, icon: "BookOpen" },
+    { id: "ramayana", label: "Ramayana", count: 54, icon: "Book" },
+    { id: "javanese", label: "Cerita Jawa", count: 43, icon: "Compass" },
+    { id: "sundanese", label: "Cerita Sunda", count: 21, icon: "Mountain" },
+    { id: "balinese", label: "Cerita Bali", count: 15, icon: "Palmtree" },
   ];
 
   const philosophicalThemes = [
-    { id: "dharma", label: "Dharma & Duty", count: 38 },
-    { id: "karma", label: "Karma & Justice", count: 42 },
-    { id: "wisdom", label: "Wisdom & Knowledge", count: 35 },
-    { id: "love", label: "Love & Devotion", count: 29 },
-    { id: "power", label: "Power & Leadership", count: 31 },
+    { id: "dharma", label: "Dharma & Kewajiban", count: 38, icon: "Scale" },
+    { id: "karma", label: "Karma & Keadilan", count: 42, icon: "Balance" },
+    { id: "wisdom", label: "Kebijaksanaan", count: 35, icon: "Lightbulb" },
+    { id: "love", label: "Cinta & Pengabdian", count: 29, icon: "Heart" },
+    { id: "power", label: "Kekuasaan", count: 31, icon: "Crown" },
   ];
 
   const handleSearchChange = (e) => {
@@ -77,8 +116,11 @@ const FilterPanel = ({
     if (filters?.types?.length) count += filters?.types?.length;
     if (filters?.origins?.length) count += filters?.origins?.length;
     if (filters?.themes?.length) count += filters?.themes?.length;
+    if (filters?.minPopularity > 0) count++;
     return count;
   };
+
+  const activeFilterCount = getActiveFilterCount();
 
   return (
     <>
@@ -87,223 +129,322 @@ const FilterPanel = ({
         <Button
           variant="outline"
           onClick={onToggle}
-          className="w-full justify-between bg-background/70 backdrop-blur-md border-primary/40 hover:bg-background/90 transition-all"
+          className="w-full justify-between bg-amber-900/30 backdrop-blur-md border-amber-600/40 hover:bg-amber-800/40 hover:border-amber-500/50 transition-all rounded-xl py-3"
         >
-          <div className="flex items-center space-x-2">
-            <Icon name="Filter" size={16} />
-            <span className="font-medium">Filter</span>
-            {getActiveFilterCount() > 0 && (
-              <span className="bg-primary text-primary-foreground text-xs px-2 py-1 rounded-full shadow-sm">
-                {getActiveFilterCount()}
+          <div className="flex items-center space-x-3">
+            <Icon name="Filter" size={18} className="text-amber-300" />
+            <span className="font-medium text-amber-100">Filter Karakter</span>
+            {activeFilterCount > 0 && (
+              <span className="bg-amber-500 text-amber-950 text-xs px-2.5 py-1 rounded-full font-bold shadow-md">
+                {activeFilterCount}
               </span>
             )}
           </div>
-          <Icon name={isOpen ? "ChevronUp" : "ChevronDown"} size={16} />
+          <Icon
+            name={isOpen ? "ChevronUp" : "ChevronDown"}
+            size={16}
+            className="text-amber-300"
+          />
         </Button>
       </div>
 
       {/* Filter Panel */}
-      <div
-        className={`bg-card/80 backdrop-blur-lg border border-border rounded-2xl shadow-xl transition-all duration-500 ${
-          isOpen || window.innerWidth >= 1024 ? "block" : "hidden"
-        } lg:block`}
-      >
-        <div className="p-4 border-b border-border">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-heading font-semibold text-foreground text-lg flex items-center space-x-2">
-              <Icon name="Sliders" size={18} className="text-primary" />
-              <span>Filter Karakter</span>
-            </h3>
-            {getActiveFilterCount() > 0 && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={onClearFilters}
-                className="text-destructive hover:bg-destructive/10"
-              >
-                <Icon name="X" size={14} />
-                Hapus Semua
-              </Button>
-            )}
-          </div>
-
-          {/* Search */}
-          <Input
-            type="search"
-            placeholder="🔍 Cari Karakter..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            className="mb-4 rounded-xl border-border bg-background/70 focus:ring-2 focus:ring-primary transition-all"
-          />
-        </div>
-
-        <div className="p-4 space-y-8">
-          {/* Character Types */}
-          <div>
-            <h4 className="font-semibold text-foreground mb-3 flex items-center text-sm uppercase tracking-wide">
-              <Icon name="Users" size={16} className="mr-2 text-primary" />
-              Tipe Karakter
-            </h4>
-            <div className="grid grid-cols-2 gap-2">
-              {characterTypes?.map((type) => (
-                <label
-                  key={type?.id}
-                  className="flex items-center justify-between p-3 rounded-xl bg-muted/40 hover:bg-muted/70 cursor-pointer transition-all"
-                >
-                  <div className="flex items-center space-x-3">
-                    <input
-                      type="checkbox"
-                      checked={filters?.types?.includes(type?.id) || false}
-                      onChange={() => handleTypeToggle(type?.id)}
-                      className="rounded border-border text-primary focus:ring-primary cursor-pointer"
-                    />
-                    <span className="text-sm text-foreground">
-                      {type?.label}
-                    </span>
+      <AnimatePresence>
+        {(isOpen || !isMobile) && (
+          <motion.div
+            initial={{
+              opacity: 0,
+              x: isMobile ? -20 : 0,
+              height: isMobile ? 0 : "auto",
+            }}
+            animate={{ opacity: 1, x: 0, height: "auto" }}
+            exit={{
+              opacity: 0,
+              x: isMobile ? -20 : 0,
+              height: isMobile ? 0 : "auto",
+            }}
+            transition={{ duration: 0.3 }}
+            className="bg-amber-900/30 backdrop-blur-xl border border-amber-600/30 rounded-2xl shadow-2xl overflow-hidden"
+          >
+            {/* Header */}
+            <div className="p-5 border-b border-amber-600/30">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-heading font-semibold text-amber-100 text-lg flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-amber-700/30 rounded-xl flex items-center justify-center">
+                    <Icon name="Sliders" size={20} className="text-amber-300" />
                   </div>
-                  <span className={`text-xs font-bold ${type?.color}`}>
-                    {type?.count}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
+                  <span>Filter Karakter</span>
+                </h3>
+                {activeFilterCount > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={onClearFilters}
+                    className="text-amber-300 hover:text-amber-100 hover:bg-amber-700/30 rounded-lg px-3 py-2"
+                  >
+                    <Icon name="X" size={14} className="mr-2" />
+                    Hapus Semua
+                  </Button>
+                )}
+              </div>
 
-          {/* Story Origins */}
-          <div>
-            <h4 className="font-semibold text-foreground mb-3 flex items-center text-sm uppercase tracking-wide">
-              <Icon name="BookOpen" size={16} className="mr-2 text-primary" />
-              Asal Usul Cerita
-            </h4>
-            <div className="grid grid-cols-2 gap-2">
-              {storyOrigins?.map((origin) => (
-                <label
-                  key={origin?.id}
-                  className="flex items-center justify-between p-3 rounded-xl bg-muted/40 hover:bg-muted/70 cursor-pointer transition-all"
-                >
-                  <div className="flex items-center space-x-3">
-                    <input
-                      type="checkbox"
-                      checked={filters?.origins?.includes(origin?.id) || false}
-                      onChange={() => handleOriginToggle(origin?.id)}
-                      className="rounded border-border text-primary focus:ring-primary cursor-pointer"
-                    />
-                    <span className="text-sm text-foreground">
-                      {origin?.label}
-                    </span>
-                  </div>
-                  <span className="text-xs text-muted-foreground font-medium">
-                    {origin?.count}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {/* Philosophical Themes */}
-          <div>
-            <h4 className="font-semibold text-foreground mb-3 flex items-center text-sm uppercase tracking-wide">
-              <Icon name="Brain" size={16} className="mr-2 text-primary" />
-              Tema Filosofis
-            </h4>
-            <div className="grid grid-cols-2 gap-2">
-              {philosophicalThemes?.map((theme) => (
-                <label
-                  key={theme?.id}
-                  className="flex items-center justify-between p-3 rounded-xl bg-muted/40 hover:bg-muted/70 cursor-pointer transition-all"
-                >
-                  <div className="flex items-center space-x-3">
-                    <input
-                      type="checkbox"
-                      checked={filters?.themes?.includes(theme?.id) || false}
-                      onChange={() => handleThemeToggle(theme?.id)}
-                      className="rounded border-border text-primary focus:ring-primary cursor-pointer"
-                    />
-                    <span className="text-sm text-foreground">
-                      {theme?.label}
-                    </span>
-                  </div>
-                  <span className="text-xs text-muted-foreground font-medium">
-                    {theme?.count}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {/* Popularity Range */}
-          <div>
-            <h4 className="font-semibold text-foreground mb-3 flex items-center text-sm uppercase tracking-wide">
-              <Icon name="TrendingUp" size={16} className="mr-2 text-primary" />
-              Rentang Popularitas
-            </h4>
-
-            <div className="space-y-3">
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={filters?.minPopularity || 0}
-                onChange={(e) =>
-                  onFilterChange({
-                    ...filters,
-                    minPopularity: parseInt(e?.target?.value),
-                  })
-                }
-                style={{
-                  background: `linear-gradient(to right, var(--tw-gradient-from,#f99e0cff) ${
-                    filters?.minPopularity || 0
-                  }%, #e5e7eb ${filters?.minPopularity || 0}%)`,
-                }}
-                className="
-        w-full h-2 rounded-full cursor-pointer appearance-none 
-        transition-all duration-300 focus:outline-none
-
-        [&::-webkit-slider-runnable-track]:h-2
-        [&::-webkit-slider-runnable-track]:rounded-full
-
-        [&::-webkit-slider-thumb]:appearance-none
-        [&::-webkit-slider-thumb]:w-5
-        [&::-webkit-slider-thumb]:h-5
-        [&::-webkit-slider-thumb]:rounded-full
-        [&::-webkit-slider-thumb]:bg-white
-        [&::-webkit-slider-thumb]:shadow-md
-        [&::-webkit-slider-thumb]:border-2
-        [&::-webkit-slider-thumb]:border-primary
-        [&::-webkit-slider-thumb]:hover:scale-110
-        [&::-webkit-slider-thumb]:transition-transform
-        [&::-webkit-slider-thumb]:relative
-        [&::-webkit-slider-thumb]:top-1/2
-        [&::-webkit-slider-thumb]:-translate-y-1/2
-
-        [&::-moz-range-track]:h-2
-        [&::-moz-range-track]:rounded-full
-
-        [&::-moz-range-thumb]:appearance-none
-        [&::-moz-range-thumb]:w-5
-        [&::-moz-range-thumb]:h-5
-        [&::-moz-range-thumb]:rounded-full
-        [&::-moz-range-thumb]:bg-white
-        [&::-moz-range-thumb]:shadow-md
-        [&::-moz-range-thumb]:border-2
-        [&::-moz-range-thumb]:border-primary
-        [&::-moz-range-thumb]:hover:scale-110
-        [&::-moz-range-thumb]:transition-transform
-        [&::-moz-range-thumb]:relative
-        [&::-moz-range-thumb]:top-1/2
-        [&::-moz-range-thumb]:-translate-y-1/2
-      "
-              />
-
-              <div className="text-center">
-                <span className="text-sm text-primary font-medium">
-                  Min: {filters?.minPopularity || 0}%
-                </span>
+              {/* Search */}
+              <div className="relative">
+                <Input
+                  type="search"
+                  placeholder="Cari karakter wayang..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  className="pl-10 pr-4 py-3 rounded-xl border-amber-600/40 bg-amber-950/50 text-amber-100 placeholder-amber-400/60 focus:ring-2 focus:ring-amber-400 focus:border-amber-400/50 transition-all"
+                />
+                <Icon
+                  name="Search"
+                  size={18}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-400/70"
+                />
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+
+            <div className="p-5 space-y-8 max-h-[70vh] overflow-y-auto">
+              {/* Character Types */}
+              <div>
+                <h4 className="font-semibold text-amber-100 mb-4 flex items-center text-base">
+                  <Icon
+                    name="Users"
+                    size={18}
+                    className="mr-3 text-amber-300"
+                  />
+                  Tipe Karakter
+                </h4>
+                <div className="grid grid-cols-1 gap-2">
+                  {characterTypes.map((type) => {
+                    const isActive = filters?.types?.includes(type.id);
+                    return (
+                      <motion.label
+                        key={type.id}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`flex items-center justify-between p-3 rounded-xl cursor-pointer transition-all duration-300 border ${
+                          isActive
+                            ? "bg-amber-700/30 border-amber-500/50 shadow-md"
+                            : "bg-amber-900/20 border-amber-700/30 hover:bg-amber-800/30"
+                        }`}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <div
+                            className={`w-8 h-8 rounded-lg ${type.bgColor} flex items-center justify-center`}
+                          >
+                            <Icon
+                              name={type.icon}
+                              size={16}
+                              className={type.color}
+                            />
+                          </div>
+                          <span className="text-amber-100 text-sm font-medium">
+                            {type.label}
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className={`text-xs font-bold ${type.color}`}>
+                            {type.count}
+                          </span>
+                          <input
+                            type="checkbox"
+                            checked={isActive}
+                            onChange={() => handleTypeToggle(type.id)}
+                            className="rounded border-amber-600/50 text-amber-500 focus:ring-amber-400 cursor-pointer w-4 h-4"
+                          />
+                        </div>
+                      </motion.label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Story Origins */}
+              <div>
+                <h4 className="font-semibold text-amber-100 mb-4 flex items-center text-base">
+                  <Icon
+                    name="BookOpen"
+                    size={18}
+                    className="mr-3 text-amber-300"
+                  />
+                  Asal Usul Cerita
+                </h4>
+                <div className="grid grid-cols-1 gap-2">
+                  {storyOrigins.map((origin) => {
+                    const isActive = filters?.origins?.includes(origin.id);
+                    return (
+                      <motion.label
+                        key={origin.id}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`flex items-center justify-between p-3 rounded-xl cursor-pointer transition-all duration-300 border ${
+                          isActive
+                            ? "bg-amber-700/30 border-amber-500/50 shadow-md"
+                            : "bg-amber-900/20 border-amber-700/30 hover:bg-amber-800/30"
+                        }`}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <div className="w-8 h-8 rounded-lg bg-amber-800/30 flex items-center justify-center">
+                            <Icon
+                              name={origin.icon}
+                              size={16}
+                              className="text-amber-300"
+                            />
+                          </div>
+                          <span className="text-amber-100 text-sm font-medium">
+                            {origin.label}
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-xs text-amber-300/80 font-medium">
+                            {origin.count}
+                          </span>
+                          <input
+                            type="checkbox"
+                            checked={isActive}
+                            onChange={() => handleOriginToggle(origin.id)}
+                            className="rounded border-amber-600/50 text-amber-500 focus:ring-amber-400 cursor-pointer w-4 h-4"
+                          />
+                        </div>
+                      </motion.label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Philosophical Themes */}
+              <div>
+                <h4 className="font-semibold text-amber-100 mb-4 flex items-center text-base">
+                  <Icon
+                    name="Brain"
+                    size={18}
+                    className="mr-3 text-amber-300"
+                  />
+                  Tema Filosofis
+                </h4>
+                <div className="grid grid-cols-1 gap-2">
+                  {philosophicalThemes.map((theme) => {
+                    const isActive = filters?.themes?.includes(theme.id);
+                    return (
+                      <motion.label
+                        key={theme.id}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`flex items-center justify-between p-3 rounded-xl cursor-pointer transition-all duration-300 border ${
+                          isActive
+                            ? "bg-amber-700/30 border-amber-500/50 shadow-md"
+                            : "bg-amber-900/20 border-amber-700/30 hover:bg-amber-800/30"
+                        }`}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <div className="w-8 h-8 rounded-lg bg-amber-800/30 flex items-center justify-center">
+                            <Icon
+                              name={theme.icon}
+                              size={16}
+                              className="text-amber-300"
+                            />
+                          </div>
+                          <span className="text-amber-100 text-sm font-medium">
+                            {theme.label}
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-xs text-amber-300/80 font-medium">
+                            {theme.count}
+                          </span>
+                          <input
+                            type="checkbox"
+                            checked={isActive}
+                            onChange={() => handleThemeToggle(theme.id)}
+                            className="rounded border-amber-600/50 text-amber-500 focus:ring-amber-400 cursor-pointer w-4 h-4"
+                          />
+                        </div>
+                      </motion.label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Popularity Range */}
+              <div>
+                <h4 className="font-semibold text-amber-100 mb-4 flex items-center text-base">
+                  <Icon
+                    name="TrendingUp"
+                    size={18}
+                    className="mr-3 text-amber-300"
+                  />
+                  Popularitas Minimum
+                </h4>
+
+                <div className="space-y-4">
+                  <div className="relative">
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={filters?.minPopularity || 0}
+                      onChange={(e) =>
+                        onFilterChange({
+                          ...filters,
+                          minPopularity: parseInt(e.target.value),
+                        })
+                      }
+                      className="
+                        w-full h-2 rounded-full cursor-pointer appearance-none
+                        bg-amber-800/30 [&::-webkit-slider-runnable-track]:rounded-full
+                        [&::-webkit-slider-thumb]:appearance-none
+                        [&::-webkit-slider-thumb]:w-5
+                        [&::-webkit-slider-thumb]:h-5
+                        [&::-webkit-slider-thumb]:rounded-full
+                        [&::-webkit-slider-thumb]:bg-amber-300
+                        [&::-webkit-slider-thumb]:shadow-lg
+                        [&::-webkit-slider-thumb]:border-2
+                        [&::-webkit-slider-thumb]:border-amber-100
+                        [&::-webkit-slider-thumb]:hover:scale-110
+                        [&::-webkit-slider-thumb]:transition-transform
+                      "
+                      style={{
+                        background: `linear-gradient(to right, rgb(245 158 11) ${
+                          filters?.minPopularity || 0
+                        }%, rgb(99 102 241 / 0.3) ${
+                          filters?.minPopularity || 0
+                        }%)`,
+                      }}
+                    />
+                  </div>
+
+                  <div className="text-center">
+                    <span className="text-sm text-amber-300 font-medium bg-amber-900/40 px-3 py-1.5 rounded-full">
+                      Minimal {filters?.minPopularity || 0}% Popularitas
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Active Filters Summary */}
+            {activeFilterCount > 0 && (
+              <div className="p-4 border-t border-amber-600/30 bg-amber-800/20">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-amber-300">
+                    {activeFilterCount} filter aktif
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={onClearFilters}
+                    className="text-amber-300 hover:text-amber-100 rounded-xl text-xs"
+                  >
+                    Reset Filter
+                  </Button>
+                </div>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

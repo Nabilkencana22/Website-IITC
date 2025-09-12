@@ -8,18 +8,17 @@ const SubtitleDisplay = ({
   currentTime,
   selectedStory,
   currentScene,
-  // Default ke bahasa Jawa sesuai permintaan
   language = "javanese",
-  // Opsional: kalau parent ngirim isPlaying, kita hormati; kalau tidak, TTS tetap nyala halus
   isPlaying = true,
 }) => {
   const [currentSubtitle, setCurrentSubtitle] = useState(null);
   const [showTranslation, setShowTranslation] = useState(false);
   const [showNotes, setShowNotes] = useState(true);
+  const [isCopied, setIsCopied] = useState(false);
+  const [ttsStatus, setTtsStatus] = useState("idle"); // idle, speaking, paused
   const spokenOnceRef = useRef(false);
 
-  // ====== DATA SUBTITLE DENGAN BAHASA JAWA ======
-  // Catatan: Kita tetap simpan Indonesian & English agar toggle terjemahan tetap bekerja.
+  // Data subtitle dengan bahasa Jawa
   const subtitleData = useMemo(
     () => ({
       bharatayuddha: {
@@ -137,7 +136,7 @@ const SubtitleDisplay = ({
     []
   );
 
-  // ====== HITUNG SUBTITLE AKTIF ======
+  // Hitung subtitle aktif
   useEffect(() => {
     const storySubtitles = subtitleData?.[selectedStory]?.[currentScene] || [];
     const activeSubtitle = storySubtitles?.find(
@@ -145,16 +144,15 @@ const SubtitleDisplay = ({
         currentTime >= subtitle?.start && currentTime < subtitle?.end
     );
     setCurrentSubtitle(activeSubtitle);
-    // reset flag supaya setiap baris anyar bisa dibacakan
     spokenOnceRef.current = false;
   }, [currentTime, selectedStory, currentScene, subtitleData]);
 
-  // ====== AUTO DUBBING (TTS) BAHASA JAWA ======
+  // Auto dubbing (TTS) bahasa Jawa
   useEffect(() => {
     if (!isVisible || !currentSubtitle || !isPlaying) return;
     if (!("speechSynthesis" in window)) return;
 
-    // pilih text sesuai language
+    // Pilih text sesuai language
     const text =
       language === "javanese"
         ? currentSubtitle?.javanese
@@ -164,15 +162,16 @@ const SubtitleDisplay = ({
 
     if (!text || spokenOnceRef.current) return;
 
-    // stop suara sebelumnya dulu agar tidak tumpang tindih
+    // Stop suara sebelumnya
     window.speechSynthesis.cancel();
 
     const utter = new SpeechSynthesisUtterance(text);
+    setTtsStatus("speaking");
 
     // Cari voice Jawa -> fallback ID -> EN
     const pickVoice = () => {
       const voices = window.speechSynthesis.getVoices() || [];
-      // coba jv-ID (kalau tersedia)
+      // Coba jv-ID (kalau tersedia)
       let voice =
         voices.find((v) => /jv[-_]JV/i.test(v.lang)) ||
         voices.find((v) => /id[-_]ID/i.test(v.lang)) ||
@@ -197,88 +196,169 @@ const SubtitleDisplay = ({
     utter.volume = 1.0;
 
     // Mark supaya 1 baris cuma dibacakan sekali
-    utter.onstart = () => (spokenOnceRef.current = true);
+    utter.onstart = () => {
+      spokenOnceRef.current = true;
+      setTtsStatus("speaking");
+    };
+
+    utter.onend = () => setTtsStatus("idle");
+    utter.onerror = () => setTtsStatus("idle");
 
     // Safari/Chrome kadang butuh jeda mikro utk load voices
     const speakNow = () => window.speechSynthesis.speak(utter);
     if (window.speechSynthesis.getVoices().length === 0) {
-      // trigger load voices
+      // Trigger load voices
       window.speechSynthesis.onvoiceschanged = () => speakNow();
     } else {
       speakNow();
     }
 
     // Bersih-bersih ketika unmount atau baris berganti
-    return () => window.speechSynthesis.cancel();
+    return () => {
+      window.speechSynthesis.cancel();
+      setTtsStatus("idle");
+    };
   }, [currentSubtitle, isVisible, isPlaying, language]);
+
+  // Handle copy text
+  const handleCopyText = () => {
+    const lines = [
+      `Jawa: ${currentSubtitle?.javanese}`,
+      `Indonesia: ${currentSubtitle?.indonesian}`,
+      `English: ${currentSubtitle?.english}`,
+      `Catatan: ${currentSubtitle?.cultural_note}`,
+    ].join("\n");
+
+    navigator.clipboard?.writeText(lines).then(() => {
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    });
+  };
+
+  // Handle TTS replay
+  const handleTTSReplay = () => {
+    if (!currentSubtitle) return;
+    if (!("speechSynthesis" in window)) return;
+
+    window.speechSynthesis.cancel();
+
+    const text =
+      language === "javanese"
+        ? currentSubtitle?.javanese
+        : language === "indonesian"
+        ? currentSubtitle?.indonesian
+        : currentSubtitle?.english;
+
+    if (!text) return;
+
+    const utter = new SpeechSynthesisUtterance(text);
+    const voices = window.speechSynthesis.getVoices() || [];
+    const voice =
+      voices.find((v) => /jv[-_]ID/i.test(v.lang)) ||
+      voices.find((v) => /id[-_]ID/i.test(v.lang)) ||
+      voices.find((v) => /en[-_]/i.test(v.lang));
+
+    if (voice) utter.voice = voice;
+
+    utter.lang =
+      voice?.lang ||
+      (language === "javanese"
+        ? "jv-ID"
+        : language === "indonesian"
+        ? "id-ID"
+        : "en-US");
+
+    utter.rate = 0.9;
+    setTtsStatus("speaking");
+
+    utter.onend = () => setTtsStatus("idle");
+    utter.onerror = () => setTtsStatus("idle");
+
+    window.speechSynthesis.speak(utter);
+  };
 
   if (!isVisible || !currentSubtitle) return null;
 
-  // ====== PROGRESS DOTS ======
+  // Progress dots
   const dots = subtitleData?.[selectedStory]?.[currentScene] || [];
 
-  // ====== VARIAN ANIMASI ======
+  // Varians animasi
   const panelVariants = {
-    hidden: { opacity: 0, y: 12, scale: 0.98 },
+    hidden: { opacity: 0, y: 20, scale: 0.95 },
     visible: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, y: 8, scale: 0.98 },
+    exit: { opacity: 0, y: 10, scale: 0.95 },
   };
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key={`${selectedStory}-${currentScene}-${currentSubtitle?.start}`}
-        className="absolute bottom-20 left-4 right-4 z-20"
+        className="absolute bottom-24 left-4 right-4 z-30"
         initial="hidden"
         animate="visible"
         exit="exit"
         variants={panelVariants}
-        transition={{ duration: 0.25, ease: "easeOut" }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
       >
-        <div className="bg-black/65 backdrop-blur-xl rounded-2xl border border-amber-500/30 shadow-[0_10px_40px_rgba(0,0,0,0.5)] p-4 md:p-5 space-y-3">
-          {/* Header mini */}
+        <div className="bg-gradient-to-b from-amber-950/90 to-amber-900/90 backdrop-blur-2xl rounded-2xl border border-amber-500/40 shadow-2xl p-5 md:p-6 space-y-4">
+          {/* Header */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-[11px] uppercase tracking-wide text-amber-300/80">
-              <Icon name="Captions" size={14} />
+            <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-amber-300/90 font-semibold">
+              <Icon name="Captions" size={16} />
               <span>Subtitel Wayang</span>
+              <div className="flex items-center gap-1 ml-2">
+                <span className="inline-block w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                <span className="text-xs font-normal normal-case">
+                  {language === "javanese"
+                    ? "Basa Jawa"
+                    : language === "indonesian"
+                    ? "Bahasa Indonesia"
+                    : "English"}
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-1.5">
+
+            <div className="flex items-center gap-2">
               {/* Toggle catatan budaya */}
               <Button
                 variant="ghost"
-                size="xs"
+                size="sm"
                 iconName="BookOpen"
                 onClick={() => setShowNotes((v) => !v)}
-                className={`text-[11px] ${
-                  showNotes ? "text-amber-300" : "text-muted-foreground"
-                } hover:text-foreground`}
-              >
-                {showNotes ? "Catatan Nyala" : "Catatan Mati"}
-              </Button>
+                className={`p-2 rounded-full ${
+                  showNotes
+                    ? "bg-amber-500/20 text-amber-300"
+                    : "bg-white/5 text-muted-foreground hover:text-foreground"
+                }`}
+                tooltip={
+                  showNotes ? "Sembunyikan catatan" : "Tampilkan catatan"
+                }
+              />
 
               {/* Toggle terjemahan */}
               <Button
                 variant="ghost"
-                size="xs"
+                size="sm"
                 iconName={showTranslation ? "ChevronUp" : "ChevronDown"}
                 onClick={() => setShowTranslation((v) => !v)}
-                className="text-[11px] text-muted-foreground hover:text-foreground"
-              >
-                {showTranslation
-                  ? "Sembunyikan Terjemahan"
-                  : "Lihat Terjemahan"}
-              </Button>
+                className="p-2 rounded-full bg-white/5 text-muted-foreground hover:text-foreground"
+                tooltip={
+                  showTranslation
+                    ? "Sembunyikan terjemahan"
+                    : "Tampilkan terjemahan"
+                }
+              />
             </div>
           </div>
 
           {/* Teks utama */}
-          <div className="text-center space-y-2">
+          <div className="text-center space-y-3">
             <motion.p
               key={currentSubtitle?.javanese}
-              initial={{ opacity: 0, y: 6 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.22 }}
-              className="text-lg md:text-xl leading-relaxed font-cultural-accent text-neutral-50"
+              transition={{ duration: 0.25 }}
+              className="text-xl md:text-2xl leading-relaxed font-cultural font-medium text-amber-50"
             >
               {language === "javanese"
                 ? currentSubtitle?.javanese
@@ -294,13 +374,13 @@ const SubtitleDisplay = ({
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="space-y-1 border-t border-border/60 pt-2"
+                  transition={{ duration: 0.25 }}
+                  className="space-y-2 border-t border-amber-500/30 pt-3"
                 >
-                  <p className="text-sm text-neutral-300 italic">
+                  <p className="text-sm text-amber-100/90 italic">
                     {currentSubtitle?.english}
                   </p>
-                  <p className="text-[13px] text-neutral-400">
+                  <p className="text-sm text-amber-200/80">
                     {currentSubtitle?.indonesian}
                   </p>
                 </motion.div>
@@ -316,19 +396,19 @@ const SubtitleDisplay = ({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 6 }}
                 transition={{ duration: 0.25 }}
-                className="border-t border-border/60 pt-3"
+                className="border-t border-amber-500/30 pt-3"
               >
-                <div className="flex items-start gap-2">
+                <div className="flex items-start gap-3">
                   <Icon
                     name="Sparkles"
-                    size={14}
-                    className="text-amber-300 mt-0.5"
+                    size={16}
+                    className="text-amber-300 mt-0.5 flex-shrink-0"
                   />
                   <div className="space-y-1">
-                    <p className="text-xs font-medium text-amber-300">
-                      Cathetan Budaya
+                    <p className="text-xs font-semibold text-amber-300">
+                      Catatan Budaya
                     </p>
-                    <p className="text-xs text-neutral-300 leading-relaxed">
+                    <p className="text-sm text-amber-100/90 leading-relaxed">
                       {currentSubtitle?.cultural_note}
                     </p>
                   </div>
@@ -337,90 +417,73 @@ const SubtitleDisplay = ({
             )}
           </AnimatePresence>
 
-          {/* Kontrol subtitel */}
-          <div className="flex items-center justify-between pt-2 border-t border-border/60">
-            <div className="flex items-center gap-2 text-xs text-neutral-400">
-              <Icon name="Clock" size={12} />
-              <span>
-                {Math.floor(currentSubtitle?.start)}s –{" "}
-                {Math.floor(currentSubtitle?.end)}s
-              </span>
+          {/* Kontrol dan informasi */}
+          <div className="flex items-center justify-between pt-3 border-t border-amber-500/30">
+            <div className="flex items-center gap-3 text-sm text-amber-200/80">
+              <div className="flex items-center gap-1.5">
+                <Icon name="Clock" size={14} />
+                <span>
+                  {Math.floor(currentSubtitle?.start)}s –{" "}
+                  {Math.floor(currentSubtitle?.end)}s
+                </span>
+              </div>
+
+              {/* Status TTS */}
+              <div className="flex items-center gap-1.5">
+                <div
+                  className={`w-2 h-2 rounded-full ${
+                    ttsStatus === "speaking"
+                      ? "bg-green-400 animate-pulse"
+                      : "bg-amber-400/60"
+                  }`}
+                ></div>
+                <span className="text-xs">
+                  {ttsStatus === "speaking" ? "Sedang berbicara" : "Siap"}
+                </span>
+              </div>
             </div>
 
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               {/* Baca ulang baris sekarang */}
               <Button
                 variant="ghost"
-                size="xs"
-                iconName="Volume2"
-                className="text-neutral-300 hover:text-white"
-                onClick={() => {
-                  if (!("speechSynthesis" in window)) return;
-                  window.speechSynthesis.cancel();
-                  const text =
-                    language === "javanese"
-                      ? currentSubtitle?.javanese
-                      : language === "indonesian"
-                      ? currentSubtitle?.indonesian
-                      : currentSubtitle?.english;
-                  if (!text) return;
-                  const utter = new SpeechSynthesisUtterance(text);
-                  const voices = window.speechSynthesis.getVoices() || [];
-                  const voice =
-                    voices.find((v) => /jv[-_]ID/i.test(v.lang)) ||
-                    voices.find((v) => /id[-_]ID/i.test(v.lang)) ||
-                    voices.find((v) => /en[-_]/i.test(v.lang));
-                  if (voice) utter.voice = voice;
-                  utter.lang =
-                    voice?.lang ||
-                    (language === "javanese"
-                      ? "jv-ID"
-                      : language === "indonesian"
-                      ? "id-ID"
-                      : "en-US");
-                  utter.rate = 0.9;
-                  window.speechSynthesis.speak(utter);
-                }}
+                size="sm"
+                iconName={ttsStatus === "speaking" ? "VolumeX" : "Volume2"}
+                className="p-2 rounded-full bg-white/5 text-amber-200 hover:text-amber-50 hover:bg-amber-500/20"
+                onClick={handleTTSReplay}
+                tooltip="Dengarkan kembali"
               />
 
               {/* Salin teks */}
               <Button
                 variant="ghost"
-                size="xs"
-                iconName="Copy"
-                className="text-neutral-300 hover:text-white"
-                onClick={() => {
-                  const lines = [
-                    `Jawa: ${currentSubtitle?.javanese}`,
-                    `Indonesia: ${currentSubtitle?.indonesian}`,
-                    `English: ${currentSubtitle?.english}`,
-                    `Catatan: ${currentSubtitle?.cultural_note}`,
-                  ].join("\n");
-                  navigator.clipboard?.writeText(lines);
-                  // Minimal notifikasi
-                  try {
-                    // gunakan browser alert sederhana (aman tanpa dep)
-                    alert("Teks subtitel disalin.");
-                  } catch (_) {}
-                }}
+                size="sm"
+                iconName={isCopied ? "Check" : "Copy"}
+                className={`p-2 rounded-full ${
+                  isCopied
+                    ? "bg-green-500/20 text-green-300"
+                    : "bg-white/5 text-amber-200 hover:text-amber-50 hover:bg-amber-500/20"
+                }`}
+                onClick={handleCopyText}
+                tooltip={isCopied ? "Tersalin!" : "Salin teks"}
               />
             </div>
           </div>
 
           {/* Indikator progress (dot) */}
-          <div className="flex items-center justify-center gap-1.5 pt-2">
+          <div className="flex items-center justify-center gap-2 pt-3">
             {dots.map((s, i) => {
               const isActive = currentTime >= s.start && currentTime < s.end;
               const isPassed = currentTime >= s.end;
               return (
                 <div
                   key={i}
-                  className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
                     isActive
-                      ? "bg-amber-400 scale-125 shadow-[0_0_8px_rgba(251,191,36,0.8)]"
+                      ? "bg-amber-400 scale-125 shadow-[0_0_10px_rgba(251,191,36,0.8)]"
                       : isPassed
-                      ? "bg-amber-400/50"
-                      : "bg-neutral-500/40"
+                      ? "bg-amber-400/60"
+                      : "bg-amber-800/60"
                   }`}
                   title={`${s.start}s–${s.end}s`}
                 />

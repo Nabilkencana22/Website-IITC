@@ -108,6 +108,394 @@ const GuidedSession = ({ isOpen, onClose }) => {
   );
 };
 
+const QuizSection = () => {
+  const questions = [
+    {
+      q: "Skala gamelan apa yang memiliki 7 nada?",
+      options: ["Slendro", "Pelog", "Diatonis"],
+      answer: "Pelog",
+      explanation:
+        "Pelog adalah sistem nada heptatonik (7 nada) dalam gamelan Jawa dan Bali.",
+    },
+    {
+      q: "Instrumen terbesar dalam gamelan disebut?",
+      options: ["Bonang", "Kendang", "Gong Ageng"],
+      answer: "Gong Ageng",
+      explanation:
+        "Gong Ageng adalah instrumen terbesar dan paling sakral dalam ansambel gamelan.",
+    },
+    {
+      q: "Alat musik gamelan yang menghasilkan suara dari logam yang dipukul disebut?",
+      options: ["Kendang", "Suling", "Gender"],
+      answer: "Gender",
+      explanation:
+        "Gender adalah instrumen gamelan yang terdiri dari bilah-bilah logam yang dipukul dengan alat pemukul.",
+    },
+  ];
+
+  const [current, setCurrent] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [score, setScore] = useState(0);
+  const [finished, setFinished] = useState(false);
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [answeredQuestions, setAnsweredQuestions] = useState([]);
+
+  const handleAnswer = (option) => {
+    if (selected) return;
+
+    const isCorrect = option === questions[current].answer;
+    setSelected(option);
+
+    // Simpan data jawaban untuk review
+    setAnsweredQuestions([
+      ...answeredQuestions,
+      {
+        question: questions[current].q,
+        userAnswer: option,
+        correctAnswer: questions[current].answer,
+        isCorrect,
+        explanation: questions[current].explanation,
+      },
+    ]);
+
+    if (isCorrect) {
+      setScore(score + 1);
+    }
+
+    // Tampilkan penjelasan singkat sebelum lanjut
+    setShowExplanation(true);
+
+    setTimeout(() => {
+      setShowExplanation(false);
+      if (current + 1 < questions.length) {
+        setCurrent(current + 1);
+        setSelected(null);
+      } else {
+        setFinished(true);
+      }
+    }, 2500);
+  };
+
+  const restartQuiz = () => {
+    setCurrent(0);
+    setSelected(null);
+    setScore(0);
+    setFinished(false);
+    setShowExplanation(false);
+    setAnsweredQuestions([]);
+  };
+
+  const progressPercent =
+    ((current + (finished ? 1 : 0)) / questions.length) * 100;
+
+  return (
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-muted/20 to-background relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
+          <pattern id="gamelan-pattern" x="0" y="0" width="0.05" height="0.05">
+            <path
+              d="M10,10 L20,20 M30,30 L40,40 M50,50 L60,60"
+              stroke="currentColor"
+              strokeWidth="1"
+            />
+          </pattern>
+          <rect
+            x="0"
+            y="0"
+            width="100"
+            height="100"
+            fill="url(#gamelan-pattern)"
+          />
+        </svg>
+      </div>
+
+      <div className="max-w-3xl mx-auto relative z-10">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-primary to-cultural-gold">
+            Quiz Interaktif Gamelan
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Uji pengetahuan Anda tentang alat musik tradisional gamelan
+            Indonesia
+          </p>
+        </div>
+
+        {/* Progress bar */}
+        <div className="mb-8">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-medium text-muted-foreground">
+              Pertanyaan {current + 1} dari {questions.length}
+            </span>
+            <span className="text-sm font-medium text-muted-foreground">
+              {Math.round(progressPercent)}%
+            </span>
+          </div>
+          <div className="h-3 bg-muted rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-primary to-cultural-gold transition-all duration-700 ease-out"
+              style={{ width: `${progressPercent}%` }}
+            ></div>
+          </div>
+        </div>
+
+        {!finished ? (
+          <div className="bg-card rounded-2xl border border-border shadow-2xl p-8 transition-all duration-500">
+            <div className="flex items-center justify-center mb-6">
+              <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-xl font-bold text-primary">
+                  {current + 1}
+                </span>
+              </div>
+            </div>
+
+            <h3 className="text-xl md:text-2xl font-semibold text-center mb-8 leading-relaxed">
+              {questions[current].q}
+            </h3>
+
+            {!showExplanation ? (
+              <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-6">
+                {questions[current].options.map((opt, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleAnswer(opt)}
+                    disabled={!!selected}
+                    className={`px-6 py-4 rounded-xl border text-lg font-medium transition-all duration-300 ease-out transform
+                      ${
+                        selected
+                          ? opt === questions[current].answer
+                            ? "bg-green-50 border-green-500 text-green-700 scale-105 shadow-md"
+                            : selected === opt
+                            ? "bg-red-50 border-red-500 text-red-700"
+                            : "bg-muted/20 border-border opacity-70"
+                          : "bg-muted/5 border-border hover:bg-muted/10 hover:scale-[1.02] hover:shadow-md"
+                      }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span>{opt}</span>
+                      {selected && opt === questions[current].answer && (
+                        <svg
+                          className="w-5 h-5 text-green-500"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      )}
+                      {selected &&
+                        selected === opt &&
+                        selected !== questions[current].answer && (
+                          <svg
+                            className="w-5 h-5 text-red-500"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        )}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-muted/20 rounded-xl p-6 mb-6 animate-fadeIn">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 mr-4">
+                    {selected === questions[current].answer ? (
+                      <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                        <svg
+                          className="w-6 h-6 text-green-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      </div>
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                        <svg
+                          className="w-6 h-6 text-red-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <p className="font-medium mb-2">
+                      {selected === questions[current].answer
+                        ? "Jawaban Anda benar!"
+                        : `Jawaban salah. Yang benar: ${questions[current].answer}`}
+                    </p>
+                    <p className="text-muted-foreground">
+                      {questions[current].explanation}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="text-center text-sm text-muted-foreground">
+              {!selected
+                ? "Pilih salah satu jawaban di atas"
+                : "Menuju pertanyaan berikutnya..."}
+            </div>
+          </div>
+        ) : (
+          <div className="bg-card rounded-2xl border border-border shadow-2xl p-8 animate-fadeIn">
+            <div className="text-center mb-8">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-r from-primary to-cultural-gold mx-auto flex items-center justify-center mb-6">
+                <svg
+                  className="w-12 h-12 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+
+              <h3 className="text-2xl md:text-3xl font-bold mb-2">
+                Kuis Selesai!
+              </h3>
+              <p className="text-muted-foreground mb-6">
+                Terima kasih telah mengikuti kuis pengetahuan gamelan
+              </p>
+
+              <div className="bg-muted/20 rounded-xl p-6 max-w-md mx-auto mb-8">
+                <div className="text-4xl font-bold text-primary mb-2">
+                  {score} / {questions.length}
+                </div>
+                <div className="text-muted-foreground">
+                  {score === questions.length
+                    ? "Sempurna! Anda sangat menguasai materi gamelan!"
+                    : score >= questions.length / 2
+                    ? "Bagus! Pengetahuan Anda tentang gamelan cukup baik."
+                    : "Terus belajar lagi ya tentang gamelan!"}
+                </div>
+
+                <div className="mt-4 h-3 bg-muted rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-primary to-cultural-gold transition-all duration-1000 ease-out"
+                    style={{ width: `${(score / questions.length) * 100}%` }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold mb-4">Ringkasan Jawaban:</h4>
+              <div className="space-y-4">
+                {answeredQuestions.map((item, index) => (
+                  <div key={index} className="p-4 rounded-xl border">
+                    <div className="flex items-start mb-2">
+                      <div className="flex-shrink-0 mr-3">
+                        {item.isCorrect ? (
+                          <svg
+                            className="w-5 h-5 text-green-500 mt-0.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                        ) : (
+                          <svg
+                            className="w-5 h-5 text-red-500 mt-0.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-medium">{item.question}</p>
+                        <p className="text-sm mt-1">
+                          Jawaban Anda:{" "}
+                          <span
+                            className={
+                              item.isCorrect ? "text-green-600" : "text-red-600"
+                            }
+                          >
+                            {item.userAnswer}
+                          </span>
+                          {!item.isCorrect && (
+                            <span className="ml-2 text-green-600">
+                              (Jawaban benar: {item.correctAnswer})
+                            </span>
+                          )}
+                        </p>
+                        <p className="text-sm text-muted-foreground mt-2">
+                          {item.explanation}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="text-center">
+              <button
+                onClick={restartQuiz}
+                className="px-6 py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary/90 transition-colors duration-300"
+              >
+                Kerjakan Kuis Lagi
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
 const GamelanPlaygroundPage = () => {
   const [activeModal, setActiveModal] = useState(null);
   const [selectedInstruments, setSelectedInstruments] = useState([]);
@@ -645,6 +1033,9 @@ const GamelanPlaygroundPage = () => {
               </div>
             </div>
           </section>
+
+          {/* Quiz Section */}
+          <QuizSection />
 
           {/* Featured Compositions */}
           <section className="py-16 px-4 sm:px-6 lg:px-8 bg-muted/10">
