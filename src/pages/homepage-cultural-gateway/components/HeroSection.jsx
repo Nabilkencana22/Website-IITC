@@ -7,7 +7,7 @@ import Button from "../../../components/ui/Button";
 const HeroSection = () => {
   const [currentCharacter, setCurrentCharacter] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [modalType, setModalType] = useState(null); // ⬅️ TAMBAH STATE MODAL
+  const [modalType, setModalType] = useState(null); 
   const audioRef = useRef(null);
 
   const characters = [

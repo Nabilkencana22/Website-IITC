@@ -15,7 +15,7 @@ const SubtitleDisplay = ({
   const [showTranslation, setShowTranslation] = useState(false);
   const [showNotes, setShowNotes] = useState(true);
   const [isCopied, setIsCopied] = useState(false);
-  const [ttsStatus, setTtsStatus] = useState("idle"); // idle, speaking, paused
+  const [ttsStatus, setTtsStatus] = useState("idle");
   const spokenOnceRef = useRef(false);
 
   // Data subtitle dengan bahasa Jawa
@@ -29,29 +29,23 @@ const SubtitleDisplay = ({
             javanese: "Kresna, aku ndeleng sedulurku ing medan perang iki.",
             indonesian: "Kresna, aku weruh para sadulurku ana ing palagan iki.",
             english: "Krishna, I see my brothers on this battlefield.",
-            cultural_note:
-              "Arjuna ngaturaké dhawuhe kanthi ajrih lan ajrih-asih marang Kresna, nggambarake sesambungan ilahi.",
+            cultural_note: "Arjuna ngaturaké dhawuhe kanthi ajrih lan ajrih-asih marang Kresna, nggambarake sesambungan ilahi.",
           },
           {
             start: 6,
             end: 10,
             javanese: "Hatiku gemetar melihat mereka yang harus kulawan.",
-            indonesian:
-              "Atiku gumeter mirsani wong-wong sing kudu tak tandingi.",
+            indonesian: "Atiku gumeter mirsani wong-wong sing kudu tak tandingi.",
             english: "My heart trembles seeing those I must fight against.",
-            cultural_note:
-              "Iki nggambarake dilema moral utama ing epos Bharatayuddha.",
+            cultural_note: "Iki nggambarake dilema moral utama ing epos Bharatayuddha.",
           },
           {
             start: 10,
             end: 14,
-            javanese:
-              "Apakah benar aku harus berperang melawan keluargaku sendiri?",
-            indonesian:
-              "Apa pantes yen aku kudu perang nglawan kulawargaku dhewe?",
+            javanese: "Apakah benar aku harus berperang melawan keluargaku sendiri?",
+            indonesian: "Apa pantes yen aku kudu perang nglawan kulawargaku dhewe?",
             english: "Is it right that I should fight against my own family?",
-            cultural_note:
-              "Pitakon bab dharma (kawajiban) lan tresna kulawarga ing kawicaksanan Jawa.",
+            cultural_note: "Pitakon bab dharma (kawajiban) lan tresna kulawarga ing kawicaksanan Jawa.",
           },
           {
             start: 14,
@@ -59,8 +53,7 @@ const SubtitleDisplay = ({
             javanese: "Kresna, tunjukkan aku jalan yang benar.",
             indonesian: "Kresna, tulung tuntun aku marang dalan kang bener.",
             english: "Krishna, show me the righteous path.",
-            cultural_note:
-              "Arjuna nyuwun pitedah ilahi, tema inti ing filsafat wayang.",
+            cultural_note: "Arjuna nyuwun pitedah ilahi, tema inti ing filsafat wayang.",
           },
         ],
       },
@@ -69,20 +62,16 @@ const SubtitleDisplay = ({
           {
             start: 0,
             end: 6,
-            javanese:
-              "Sita, permaisuriku yang cantik, telah diculik oleh Rahwana.",
-            indonesian:
-              "Sita, permaisuriku kang endah, wis diculik déning Rahwana.",
+            javanese: "Sita, permaisuriku yang cantik, telah diculik oleh Rahwana.",
+            indonesian: "Sita, permaisuriku kang endah, wis diculik déning Rahwana.",
             english: "Sita, my beautiful queen, has been kidnapped by Rahwana.",
             cultural_note: "Susahé Rama dadi pambuka tumindak nylametaké Sita.",
           },
           {
             start: 6,
             end: 10,
-            javanese:
-              "Aku akan mengejar raja raksasa itu hingga ke ujung dunia.",
-            indonesian:
-              "Aku bakal ngoyak raja buta kuwi nganti tekan pucuking jagad.",
+            javanese: "Aku akan mengejar raja raksasa itu hingga ke ujung dunia.",
+            indonesian: "Aku bakal ngoyak raja buta kuwi nganti tekan pucuking jagad.",
             english: "I will chase that demon king to the ends of the earth.",
             cultural_note: "Nuduhaké tekad lan kesetiaan Rama sing ora goyah.",
           },
@@ -101,14 +90,10 @@ const SubtitleDisplay = ({
           {
             start: 0,
             end: 6,
-            javanese:
-              "Heh heh heh... Anak-anakku, dengarlah nasihat Bapak Semar.",
-            indonesian:
-              "Heh heh heh... Le, putu-putuku, rungokna piwulangé Bapa Semar.",
-            english:
-              "Heh heh heh... My children, listen to Father Semar's advice.",
-            cultural_note:
-              "Guyu khas Semar lan sapaan kebapaan marang putra-putrane.",
+            javanese: "Heh heh heh... Anak-anakku, dengarlah nasihat Bapak Semar.",
+            indonesian: "Heh heh heh... Le, putu-putuku, rungokna piwulangé Bapa Semar.",
+            english: "Heh heh heh... My children, listen to Father Semar's advice.",
+            cultural_note: "Guyu khas Semar lan sapaan kebapaan marang putra-putrane.",
           },
           {
             start: 6,
@@ -116,19 +101,15 @@ const SubtitleDisplay = ({
             javanese: "Hidup itu seperti pertunjukan wayang.",
             indonesian: "Urip kuwi koyo pentas wayang, le.",
             english: "Life is like a wayang performance.",
-            cultural_note:
-              "Tetesan kawicaksanan: urip minangka bayang-bayang lan peran.",
+            cultural_note: "Tetesan kawicaksanan: urip minangka bayang-bayang lan peran.",
           },
           {
             start: 10,
             end: 16,
-            javanese:
-              "Ada yang bermain di depan layar, ada yang bekerja di belakang.",
-            indonesian:
-              "Ana sing ndelok ing ngarep kelir, ana sing nyambut gawe ana mburi.",
+            javanese: "Ada yang bermain di depan layar, ada yang bekerja di belakang.",
+            indonesian: "Ana sing ndelok ing ngarep kelir, ana sing nyambut gawe ana mburi.",
             english: "Some play in front of the screen, some work behind it.",
-            cultural_note:
-              "Piwulang ngenani peran lan pandhangan urip kang béda-béda.",
+            cultural_note: "Piwulang ngenani peran lan pandhangan urip kang béda-béda.",
           },
         ],
       },
@@ -138,14 +119,18 @@ const SubtitleDisplay = ({
 
   // Hitung subtitle aktif
   useEffect(() => {
+    if (!selectedStory || !currentScene) return;
+    
     const storySubtitles = subtitleData?.[selectedStory]?.[currentScene] || [];
     const activeSubtitle = storySubtitles?.find(
-      (subtitle) =>
-        currentTime >= subtitle?.start && currentTime < subtitle?.end
+      (subtitle) => currentTime >= subtitle?.start && currentTime < subtitle?.end
     );
-    setCurrentSubtitle(activeSubtitle);
-    spokenOnceRef.current = false;
-  }, [currentTime, selectedStory, currentScene, subtitleData]);
+    
+    if (activeSubtitle !== currentSubtitle) {
+      setCurrentSubtitle(activeSubtitle);
+      spokenOnceRef.current = false;
+    }
+  }, [currentTime, selectedStory, currentScene, subtitleData, currentSubtitle]);
 
   // Auto dubbing (TTS) bahasa Jawa
   useEffect(() => {
@@ -168,52 +153,53 @@ const SubtitleDisplay = ({
     const utter = new SpeechSynthesisUtterance(text);
     setTtsStatus("speaking");
 
-    // Cari voice Jawa -> fallback ID -> EN
+    // Cari voice yang tersedia
     const pickVoice = () => {
       const voices = window.speechSynthesis.getVoices() || [];
-      // Coba jv-ID (kalau tersedia)
-      let voice =
-        voices.find((v) => /jv[-_]JV/i.test(v.lang)) ||
-        voices.find((v) => /id[-_]ID/i.test(v.lang)) ||
-        voices.find((v) => /en[-_]/i.test(v.lang));
+      
+      // Prioritaskan voice berdasarkan bahasa
+      let voice = voices.find((v) => v.lang.includes("jv")) ||
+                 voices.find((v) => v.lang.includes("id")) ||
+                 voices.find((v) => v.lang.includes("en")) ||
+                 voices[0];
+      
       return voice || null;
     };
 
-    const voice = pickVoice();
-    if (voice) utter.voice = voice;
+    const setupAndSpeak = () => {
+      const voice = pickVoice();
+      if (voice) {
+        utter.voice = voice;
+        utter.lang = voice.lang;
+      } else {
+        utter.lang = language === "javanese" ? "id-ID" : 
+                    language === "indonesian" ? "id-ID" : "en-US";
+      }
 
-    utter.lang =
-      voice?.lang ||
-      (language === "javanese"
-        ? "jv-JV"
-        : language === "indonesian"
-        ? "id-ID"
-        : "en-US");
+      utter.rate = 0.9;
+      utter.pitch = 1.0;
+      utter.volume = 1.0;
 
-    // Kecepatan agak pelan supaya artikulasi jelas
-    utter.rate = 0.9;
-    utter.pitch = 1.0;
-    utter.volume = 1.0;
+      utter.onstart = () => {
+        spokenOnceRef.current = true;
+        setTtsStatus("speaking");
+      };
 
-    // Mark supaya 1 baris cuma dibacakan sekali
-    utter.onstart = () => {
-      spokenOnceRef.current = true;
-      setTtsStatus("speaking");
+      utter.onend = () => setTtsStatus("idle");
+      utter.onerror = () => setTtsStatus("idle");
+
+      window.speechSynthesis.speak(utter);
     };
 
-    utter.onend = () => setTtsStatus("idle");
-    utter.onerror = () => setTtsStatus("idle");
-
-    // Safari/Chrome kadang butuh jeda mikro utk load voices
-    const speakNow = () => window.speechSynthesis.speak(utter);
+    // Handle voice loading
     if (window.speechSynthesis.getVoices().length === 0) {
-      // Trigger load voices
-      window.speechSynthesis.onvoiceschanged = () => speakNow();
+      window.speechSynthesis.addEventListener('voiceschanged', () => {
+        setupAndSpeak();
+      });
     } else {
-      speakNow();
+      setupAndSpeak();
     }
 
-    // Bersih-bersih ketika unmount atau baris berganti
     return () => {
       window.speechSynthesis.cancel();
       setTtsStatus("idle");
@@ -222,17 +208,31 @@ const SubtitleDisplay = ({
 
   // Handle copy text
   const handleCopyText = () => {
+    if (!currentSubtitle) return;
+    
     const lines = [
-      `Jawa: ${currentSubtitle?.javanese}`,
-      `Indonesia: ${currentSubtitle?.indonesian}`,
-      `English: ${currentSubtitle?.english}`,
-      `Catatan: ${currentSubtitle?.cultural_note}`,
+      `Jawa: ${currentSubtitle.javanese}`,
+      `Indonesia: ${currentSubtitle.indonesian}`,
+      `English: ${currentSubtitle.english}`,
+      `Catatan: ${currentSubtitle.cultural_note}`,
     ].join("\n");
 
-    navigator.clipboard?.writeText(lines).then(() => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(lines).then(() => {
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      });
+    } else {
+      // Fallback untuk browser yang tidak support clipboard API
+      const textArea = document.createElement("textarea");
+      textArea.value = lines;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000);
-    });
+    }
   };
 
   // Handle TTS replay
@@ -244,29 +244,27 @@ const SubtitleDisplay = ({
 
     const text =
       language === "javanese"
-        ? currentSubtitle?.javanese
+        ? currentSubtitle.javanese
         : language === "indonesian"
-        ? currentSubtitle?.indonesian
-        : currentSubtitle?.english;
+        ? currentSubtitle.indonesian
+        : currentSubtitle.english;
 
     if (!text) return;
 
     const utter = new SpeechSynthesisUtterance(text);
     const voices = window.speechSynthesis.getVoices() || [];
-    const voice =
-      voices.find((v) => /jv[-_]ID/i.test(v.lang)) ||
-      voices.find((v) => /id[-_]ID/i.test(v.lang)) ||
-      voices.find((v) => /en[-_]/i.test(v.lang));
+    const voice = voices.find((v) => v.lang.includes("jv")) ||
+                 voices.find((v) => v.lang.includes("id")) ||
+                 voices.find((v) => v.lang.includes("en")) ||
+                 voices[0];
 
-    if (voice) utter.voice = voice;
-
-    utter.lang =
-      voice?.lang ||
-      (language === "javanese"
-        ? "jv-ID"
-        : language === "indonesian"
-        ? "id-ID"
-        : "en-US");
+    if (voice) {
+      utter.voice = voice;
+      utter.lang = voice.lang;
+    } else {
+      utter.lang = language === "javanese" ? "id-ID" : 
+                  language === "indonesian" ? "id-ID" : "en-US";
+    }
 
     utter.rate = 0.9;
     setTtsStatus("speaking");
@@ -292,7 +290,7 @@ const SubtitleDisplay = ({
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        key={`${selectedStory}-${currentScene}-${currentSubtitle?.start}`}
+        key={`${selectedStory}-${currentScene}-${currentSubtitle.start}`}
         className="absolute bottom-24 left-4 right-4 z-30"
         initial="hidden"
         animate="visible"
@@ -320,55 +318,47 @@ const SubtitleDisplay = ({
 
             <div className="flex items-center gap-2">
               {/* Toggle catatan budaya */}
-              <Button
-                variant="ghost"
-                size="sm"
-                iconName="BookOpen"
+              <button
                 onClick={() => setShowNotes((v) => !v)}
-                className={`p-2 rounded-full ${
+                className={`p-2 rounded-full transition-all duration-200 ${
                   showNotes
                     ? "bg-amber-500/20 text-amber-300"
-                    : "bg-white/5 text-muted-foreground hover:text-foreground"
+                    : "bg-white/5 text-gray-400 hover:text-white"
                 }`}
-                tooltip={
-                  showNotes ? "Sembunyikan catatan" : "Tampilkan catatan"
-                }
-              />
+                title={showNotes ? "Sembunyikan catatan" : "Tampilkan catatan"}
+              >
+                <Icon name="BookOpen" size={16} />
+              </button>
 
               {/* Toggle terjemahan */}
-              <Button
-                variant="ghost"
-                size="sm"
-                iconName={showTranslation ? "ChevronUp" : "ChevronDown"}
+              <button
                 onClick={() => setShowTranslation((v) => !v)}
-                className="p-2 rounded-full bg-white/5 text-muted-foreground hover:text-foreground"
-                tooltip={
-                  showTranslation
-                    ? "Sembunyikan terjemahan"
-                    : "Tampilkan terjemahan"
-                }
-              />
+                className="p-2 rounded-full bg-white/5 text-gray-400 hover:text-white transition-all duration-200"
+                title={showTranslation ? "Sembunyikan terjemahan" : "Tampilkan terjemahan"}
+              >
+                <Icon name={showTranslation ? "ChevronUp" : "ChevronDown"} size={16} />
+              </button>
             </div>
           </div>
 
           {/* Teks utama */}
           <div className="text-center space-y-3">
             <motion.p
-              key={currentSubtitle?.javanese}
+              key={currentSubtitle.javanese}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25 }}
-              className="text-xl md:text-2xl leading-relaxed font-cultural font-medium text-amber-50"
+              className="text-xl md:text-2xl leading-relaxed font-medium text-amber-50"
             >
               {language === "javanese"
-                ? currentSubtitle?.javanese
+                ? currentSubtitle.javanese
                 : language === "indonesian"
-                ? currentSubtitle?.indonesian
-                : currentSubtitle?.english}
+                ? currentSubtitle.indonesian
+                : currentSubtitle.english}
             </motion.p>
 
             {/* Terjemahan (EN + ID) */}
-            <AnimatePresence initial={false}>
+            <AnimatePresence>
               {showTranslation && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
@@ -378,10 +368,10 @@ const SubtitleDisplay = ({
                   className="space-y-2 border-t border-amber-500/30 pt-3"
                 >
                   <p className="text-sm text-amber-100/90 italic">
-                    {currentSubtitle?.english}
+                    {currentSubtitle.english}
                   </p>
                   <p className="text-sm text-amber-200/80">
-                    {currentSubtitle?.indonesian}
+                    {currentSubtitle.indonesian}
                   </p>
                 </motion.div>
               )}
@@ -389,7 +379,7 @@ const SubtitleDisplay = ({
           </div>
 
           {/* Catatan Budaya */}
-          <AnimatePresence initial={false}>
+          <AnimatePresence>
             {showNotes && (
               <motion.div
                 initial={{ opacity: 0, y: 6 }}
@@ -409,7 +399,7 @@ const SubtitleDisplay = ({
                       Catatan Budaya
                     </p>
                     <p className="text-sm text-amber-100/90 leading-relaxed">
-                      {currentSubtitle?.cultural_note}
+                      {currentSubtitle.cultural_note}
                     </p>
                   </div>
                 </div>
@@ -423,8 +413,7 @@ const SubtitleDisplay = ({
               <div className="flex items-center gap-1.5">
                 <Icon name="Clock" size={14} />
                 <span>
-                  {Math.floor(currentSubtitle?.start)}s –{" "}
-                  {Math.floor(currentSubtitle?.end)}s
+                  {Math.floor(currentSubtitle.start)}s – {Math.floor(currentSubtitle.end)}s
                 </span>
               </div>
 
@@ -445,28 +434,26 @@ const SubtitleDisplay = ({
 
             <div className="flex items-center gap-2">
               {/* Baca ulang baris sekarang */}
-              <Button
-                variant="ghost"
-                size="sm"
-                iconName={ttsStatus === "speaking" ? "VolumeX" : "Volume2"}
-                className="p-2 rounded-full bg-white/5 text-amber-200 hover:text-amber-50 hover:bg-amber-500/20"
+              <button
+                className="p-2 rounded-full bg-white/5 text-amber-200 hover:text-amber-50 hover:bg-amber-500/20 transition-all duration-200"
                 onClick={handleTTSReplay}
-                tooltip="Dengarkan kembali"
-              />
+                title="Dengarkan kembali"
+              >
+                <Icon name={ttsStatus === "speaking" ? "VolumeX" : "Volume2"} size={16} />
+              </button>
 
               {/* Salin teks */}
-              <Button
-                variant="ghost"
-                size="sm"
-                iconName={isCopied ? "Check" : "Copy"}
-                className={`p-2 rounded-full ${
+              <button
+                className={`p-2 rounded-full transition-all duration-200 ${
                   isCopied
                     ? "bg-green-500/20 text-green-300"
                     : "bg-white/5 text-amber-200 hover:text-amber-50 hover:bg-amber-500/20"
                 }`}
                 onClick={handleCopyText}
-                tooltip={isCopied ? "Tersalin!" : "Salin teks"}
-              />
+                title={isCopied ? "Tersalin!" : "Salin teks"}
+              >
+                <Icon name={isCopied ? "Check" : "Copy"} size={16} />
+              </button>
             </div>
           </div>
 

@@ -58,7 +58,8 @@ const GalleryHeader = ({ totalCharacters, sortBy, onSortChange }) => {
 
       {/* Pattern overlay - traditional batik inspired */}
       <div className="absolute inset-0 opacity-5 pointer-events-none">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <svg width="100%" height="100%" >
+          <img src="https://img.freepik.com/premium-vector/indonesian-traditional-style-batik-pattern-damask-pattern-textile_481716-304.jpg?w=2000" alt="" />
           <defs>
             <pattern
               id="batikPattern"
